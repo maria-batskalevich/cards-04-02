@@ -1,10 +1,10 @@
 import {Demonstration} from '../../../n2-features/f0-test/Demonstration';
-import {Login} from '../../../n2-features/f0-test/Login';
-import {NewPassword} from '../../../n2-features/f0-test/NewPassword';
+import {Login} from '../../../n2-features/f0-test/Login/Login';
+import {NewPassword} from '../../../n2-features/f0-test/New password/NewPassword';
 import {NotFound} from '../../../n2-features/f0-test/NotFound';
-import {Profile} from '../../../n2-features/f0-test/Profile';
-import {RecoveryPass} from '../../../n2-features/f0-test/RecoveryPass';
-import {Registration} from '../../../n2-features/f0-test/Registration';
+import {Profile} from '../../../n2-features/f0-test/Profile/Profile';
+import {RecoveryPassword} from '../../../n2-features/f0-test/RecoveryPass/RecoveryPassword';
+import {Registration} from '../../../n2-features/f0-test/Registration/Registration';
 import {Route, Routes} from 'react-router-dom';
 
 export const NOT_FOUND_ROUTE = '*';
@@ -34,7 +34,7 @@ export const publicRoutes = [
     },
     {
         path: RECOVERY_PASS_ROUTE,
-        component: <RecoveryPass/>,
+        component: <RecoveryPassword/>,
     },
     {
         path: NEW_PASS_ROUTE,
