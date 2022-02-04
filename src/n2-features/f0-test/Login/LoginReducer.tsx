@@ -1,4 +1,4 @@
-import { API } from '../../../n1-main/m3-dal/API';
+import {API} from '../../../n1-main/m3-dal/API';
 
 export type initLoginStateType = {
     someProperty: string;
@@ -24,7 +24,7 @@ export const LoginReducer = (
 };
 
 export const LoginAction = (param: string) =>
-    ({ type: 'LOGIN_CASE', payload: { param } } as const);
+    ({type: 'LOGIN_CASE', payload: {param}} as const);
 
 export const testThunk = (param: string) => () => {
     API.appAPI

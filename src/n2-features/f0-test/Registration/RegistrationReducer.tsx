@@ -22,6 +22,6 @@ export const RegistrationReducer = (
 };
 
 export const RegistrationAction = (param: string) =>
-    ({ type: 'REGISTRATION_CASE', payload: { param } } as const);
+    ({type: 'REGISTRATION_CASE', payload: {param}} as const);
 
 export type RegistrationActionTypes = ReturnType<typeof RegistrationAction>;
