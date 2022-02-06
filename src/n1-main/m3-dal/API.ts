@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {ApiResponseTypes} from "./ApiResponseTypes";
+import {ApiResponseTypes, AuthLoginResponseTypes, AuthLoginTypes} from "./ApiResponseTypes";
 
 
 // const settings = {
@@ -10,7 +10,7 @@ import {ApiResponseTypes} from "./ApiResponseTypes";
 // }
 
 const instance = axios.create({
-    baseURL: '',
+    baseURL: 'http://localhost:7542/2.0/',
     // ...settings
 });
 
@@ -20,7 +20,7 @@ export const API = {
             instance.post<string, ApiResponseTypes>('', {param}),
     },
     loginAPI: {
-        login: (param: string) => instance.post<string, ApiResponseTypes>('', {param}),
+        login: (param: AuthLoginTypes) => instance.post<AuthLoginTypes, ApiResponseTypes<{data: AuthLoginResponseTypes}>>('auth/login', param),
     },
     recoveryPasswordAPI: {
         recoveryPass: (param: string) =>

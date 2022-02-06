@@ -1,40 +1,42 @@
 import {API} from '../../../n1-main/m3-dal/API';
+import {AuthLoginTypes} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {Dispatch} from "redux";
 
 export type initLoginStateType = {
-    someProperty: string;
+    _id: string | null;
 };
 
 const initLoginState = {
-    someProperty: '',
+    _id: "null"
 };
 
-export const LoginReducer = (
-    state: initLoginStateType = initLoginState,
-    action: LoginActionTypes,
+export const LoginReducer = (state: initLoginStateType = initLoginState, action: LoginActionTypes,
 ): initLoginStateType => {
     switch (action.type) {
-        case 'LOGIN_CASE':
+        case 'login/LOGIN_CASE':
             return {
-                ...state,
-                ...action.payload,
+                ...state, _id: action.payload._id
             };
         default:
             return state;
     }
 };
 
-export const LoginAction = (param: string) =>
-    ({type: 'LOGIN_CASE', payload: {param}} as const);
+export const LoginAction = (_id: string) =>
+    ({type: 'login/LOGIN_CASE', payload: {_id}} as const);
 
-export const testThunk = (param: string) => () => {
-    API.appAPI
-        .fakeRequest(param)
+export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
+    API.loginAPI.login(param)
+        //.fakeRequest(param)
         .then(res => {
-            console.log(res);
+            dispatch(LoginAction(res.data.data._id))
         })
         .catch(err => {
-            console.log(err);
-        });
-};
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            console.log('Error: ', {...err})
+        })
+}
 
 export type LoginActionTypes = ReturnType<typeof LoginAction>;
