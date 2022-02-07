@@ -3,12 +3,10 @@ import {AuthLoginTypes} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Dispatch} from "redux";
 
 export type initLoginStateType = {
-    _id: string | null;
+    _id?: string | null;
 };
 
-const initLoginState = {
-    _id: "null"
-};
+const initLoginState = {};
 
 export const LoginReducer = (state: initLoginStateType = initLoginState, action: LoginActionTypes,
 ): initLoginStateType => {
@@ -29,13 +27,17 @@ export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
     API.loginAPI.login(param)
         //.fakeRequest(param)
         .then(res => {
-            dispatch(LoginAction(res.data.data._id))
+            const _id = res.data.data._id
+            if(_id === null) {
+                dispatch(LoginAction(res.data.data._id))
+            }
+            else console.warn('some error')
         })
         .catch(err => {
             const error = err.response
                 ? err.response.data.error
                 : (err.message + ', more details in the console')
-            console.log('Error: ', {...err})
+            console.log('Error: ', error)
         })
 }
 
