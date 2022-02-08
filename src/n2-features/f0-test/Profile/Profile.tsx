@@ -33,6 +33,7 @@ export const Profile = () => {
                 </>
                 :
                 <>
+
                     <span>Name</span>
                     <input type="text" placeholder={name}/>
                     <span>Email</span>
