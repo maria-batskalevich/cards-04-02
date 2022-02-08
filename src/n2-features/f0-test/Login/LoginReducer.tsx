@@ -6,12 +6,14 @@ export type initLoginStateType = {
     _id?: string | null;
     error?: string;
     isLoggedIn: boolean;
-    statusApp: StatusType
+    statusApp: StatusType;
+    entityStatus: StatusType
 };
 
 const initLoginState = {
     isLoggedIn: false,
-    statusApp: 'idle' as StatusType
+    statusApp: 'idle' as StatusType,
+    entityStatus: 'idle' as StatusType,
 };
 
 export const LoginReducer = (state: initLoginStateType = initLoginState, action: LoginActionTypes,
@@ -29,6 +31,10 @@ export const LoginReducer = (state: initLoginStateType = initLoginState, action:
             return {
                 ...state, statusApp: action.payload.statusApp
             }
+        case 'login/SET_ENTITY_STATUS_CASE':
+            return {
+                ...state, entityStatus: action.payload.entityStatus
+            }
         default:
             return state;
     }
@@ -40,9 +46,12 @@ export const SetError = (error: string) =>
     ({type: 'login/SET_ERROR_CASE', payload: {error}} as const);
 export const SetStatusApp = (statusApp: StatusType) =>
     ({type: 'login/SET_STATUS_APP_CASE', payload: {statusApp}} as const);
+export const SetEntityStatus = (entityStatus: StatusType) =>
+    ({type: 'login/SET_ENTITY_STATUS_CASE', payload: {entityStatus}} as const);
 
 export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
     dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     API.loginAPI.login(param)
         //.fakeRequest(param)
         .then(res => {
@@ -60,4 +69,5 @@ export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
 export type StatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type LoginActionTypes = ReturnType<typeof LoginAction>
     | ReturnType<typeof SetError>
-    | ReturnType<typeof SetStatusApp>;
+    | ReturnType<typeof SetStatusApp>
+    | ReturnType<typeof SetEntityStatus>
