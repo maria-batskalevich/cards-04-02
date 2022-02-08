@@ -1,27 +1,42 @@
+import {Dispatch} from "redux";
+import {API} from "../../../n1-main/m3-dal/API";
+
 export type initLoginStateType = {
-    someProperty: string;
+    name: string
+    email: string
 };
 
 const initLoginState = {
-    someProperty: '',
+    name: '',
+    email: '',
 };
 
-export const ProfileReducer = (
-    state: initLoginStateType = initLoginState,
-    action: ProfileActionTypes,
-): initLoginStateType => {
+export const ProfileReducer = (state: initLoginStateType = initLoginState, action: ProfileActionTypes,): initLoginStateType => {
     switch (action.type) {
-        case 'PROFILE_CASE':
-            return {
-                ...state,
-                ...action.payload,
-            };
+        case 'CHANGE-NAME':
+            return {...state, name: action.name};
+        case 'CHANGE-EMAIL':
+            return {...state, email: action.email};
         default:
             return state;
     }
 };
 
-export const ProfileAction = (param: string) =>
-    ({ type: 'PROFILE_CASE', payload: { param } } as const);
+export const SetNameAction = (name: string) =>
+    ({type: 'CHANGE-NAME', name} as const);
 
-export type ProfileActionTypes = ReturnType<typeof ProfileAction>;
+export const SetEmailAction = (email: string) =>
+    ({type: 'CHANGE-EMAIL', email} as const);
+
+export type ProfileActionTypes = ReturnType<typeof SetNameAction> | ReturnType<typeof SetEmailAction>
+
+export const SetUserThunk = () => (dispatch: Dispatch) => {
+    API.profileInfo()
+        .then(res => {
+            dispatch(SetNameAction(res.data.name))
+            dispatch(SetEmailAction(res.data.email))
+        })
+        .catch(err => {
+            console.log(err.data)
+        })
+}

@@ -11,6 +11,7 @@ import {ApiResponseTypes, AuthLoginResponseTypes, AuthLoginTypes, RegisterParams
 
 const instance = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    withCredentials: true,
     // ...settings
 });
 
@@ -29,6 +30,9 @@ export const API = {
     registration(param: RegisterParamsType) {
         return instance.post<{ addedUser: AuthLoginResponseTypes }>('/auth/register', param)
     },
+    profileInfo() {
+        return instance.post<any>('auth/me', {})
+    }
 };
 
 
