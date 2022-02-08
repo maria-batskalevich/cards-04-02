@@ -4,41 +4,48 @@ import {Dispatch} from "redux";
 
 export type initLoginStateType = {
     _id?: string | null;
+    error?: string;
+    isLoggedIn: boolean
 };
 
-const initLoginState = {};
+const initLoginState = {
+    isLoggedIn: false
+};
 
 export const LoginReducer = (state: initLoginStateType = initLoginState, action: LoginActionTypes,
 ): initLoginStateType => {
     switch (action.type) {
         case 'login/LOGIN_CASE':
             return {
-                ...state, _id: action.payload._id
-            };
+                ...state, isLoggedIn: action.payload.isLoggedIn
+            }
+        case 'login/SET_ERROR_CASE':
+            return {
+                ...state, error: action.payload.error
+            }
         default:
             return state;
     }
 };
 
-export const LoginAction = (_id: string) =>
-    ({type: 'login/LOGIN_CASE', payload: {_id}} as const);
+export const LoginAction = (isLoggedIn: boolean) =>
+    ({type: 'login/LOGIN_CASE', payload: {isLoggedIn}} as const);
+export const SetError = (error: string) =>
+    ({type: 'login/SET_ERROR_CASE', payload: {error}} as const);
 
 export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
     API.loginAPI.login(param)
         //.fakeRequest(param)
         .then(res => {
-            const _id = res.data.data._id
-            if(_id === null) {
-                dispatch(LoginAction(res.data.data._id))
-            }
-            else console.warn('some error')
+            dispatch(LoginAction(true))
         })
         .catch(err => {
             const error = err.response
                 ? err.response.data.error
                 : (err.message + ', more details in the console')
+            dispatch(SetError(error))
             console.log('Error: ', error)
         })
 }
 
-export type LoginActionTypes = ReturnType<typeof LoginAction>;
+export type LoginActionTypes = ReturnType<typeof LoginAction> | ReturnType<typeof SetError>;
