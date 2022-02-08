@@ -1,12 +1,12 @@
-import React, {ChangeEvent, MouseEvent, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {LoginThunk} from "./LoginReducer";
+import {LoginThunk, StatusType} from "./LoginReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {Navigate} from 'react-router-dom';
 import SuperInputText from "../../../n1-main/m1-ui/common/c1-SuperInputText/SuperInputText";
 import SuperCheckbox from "../../../n1-main/m1-ui/common/c3-SuperCheckbox/SuperCheckbox";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
-import "./Login.css"
+import { LoadingProgress } from '../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress';
 
 export const Login = (): React.ReactElement => {
     console.log('login')
@@ -14,6 +14,7 @@ export const Login = (): React.ReactElement => {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const error = useSelector<AppRootStateType, string | undefined>(state => state.login.error)
+    const statusApp = useSelector<AppRootStateType, StatusType>(state => state.login.statusApp)
 
     //state
     const [email, setEmail] = useState<string>('nya-admin@nya.nya')
@@ -32,7 +33,8 @@ export const Login = (): React.ReactElement => {
     if (isLoggedIn) {
         return <Navigate to={'/profile'}/>
     }
-    return <div className={'loginContainer'}>
+    return <div>
+        {statusApp === 'loading' && <LoadingProgress/>}
         <h1>Sign In</h1>
         <div><SuperInputText type={'email'} placeholder={'Email'} value={email} onChange={changeEmail}/></div>
         <div><SuperInputText type={'password'} placeholder={'Password'} value={password} onChange={changePassword}/></div>

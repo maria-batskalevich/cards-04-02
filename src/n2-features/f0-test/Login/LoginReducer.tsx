@@ -5,11 +5,13 @@ import {Dispatch} from "redux";
 export type initLoginStateType = {
     _id?: string | null;
     error?: string;
-    isLoggedIn: boolean
+    isLoggedIn: boolean;
+    statusApp: StatusType
 };
 
 const initLoginState = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    statusApp: 'idle' as StatusType
 };
 
 export const LoginReducer = (state: initLoginStateType = initLoginState, action: LoginActionTypes,
@@ -23,6 +25,10 @@ export const LoginReducer = (state: initLoginStateType = initLoginState, action:
             return {
                 ...state, error: action.payload.error
             }
+        case 'login/SET_STATUS_APP_CASE':
+            return {
+                ...state, statusApp: action.payload.statusApp
+            }
         default:
             return state;
     }
@@ -32,12 +38,16 @@ export const LoginAction = (isLoggedIn: boolean) =>
     ({type: 'login/LOGIN_CASE', payload: {isLoggedIn}} as const);
 export const SetError = (error: string) =>
     ({type: 'login/SET_ERROR_CASE', payload: {error}} as const);
+export const SetStatusApp = (statusApp: StatusType) =>
+    ({type: 'login/SET_STATUS_APP_CASE', payload: {statusApp}} as const);
 
 export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
+    dispatch(SetStatusApp('loading'))
     API.loginAPI.login(param)
         //.fakeRequest(param)
         .then(res => {
             dispatch(LoginAction(true))
+            dispatch(SetStatusApp('succeeded'))
         })
         .catch(err => {
             const error = err.response
@@ -47,5 +57,7 @@ export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
             console.log('Error: ', error)
         })
 }
-
-export type LoginActionTypes = ReturnType<typeof LoginAction> | ReturnType<typeof SetError>;
+export type StatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type LoginActionTypes = ReturnType<typeof LoginAction>
+    | ReturnType<typeof SetError>
+    | ReturnType<typeof SetStatusApp>;
