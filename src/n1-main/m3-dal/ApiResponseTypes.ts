@@ -22,3 +22,8 @@ export type AuthLoginTypes = {
     password: string;
     rememberMe: boolean; // - куки умрут если пользователь будет
 }
+
+export type RegisterParamsType = {
+    email: string;
+    password: string;
+}
