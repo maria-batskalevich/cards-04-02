@@ -6,6 +6,8 @@ import {Profile} from '../../../n2-features/f0-test/Profile/Profile';
 import {RecoveryPassword} from '../../../n2-features/f0-test/RecoveryPass/RecoveryPassword';
 import {Registration} from '../../../n2-features/f0-test/Registration/Registration';
 import {Route, Routes} from 'react-router-dom';
+import {Packs} from "../../../n2-features/f1-table/Packs/Packs";
+import {Cards} from "../../../n2-features/f1-table/Cards/Cards";
 
 export const NOT_FOUND_ROUTE = '*';
 export const LOGIN_ROUTE = 'login';
@@ -13,6 +15,8 @@ export const REG_ROUTE = 'register';
 export const PROFILE_ROUTE = 'profile';
 export const RECOVERY_PASS_ROUTE = 'recoveryPass';
 export const NEW_PASS_ROUTE = 'newPass';
+export const PACKS_ROUTE = 'cardPacks';
+export const CARDS_ROUTE = 'cards';
 export const DEMONSTRATION_ROUTE = 'demonstration';
 
 export const publicRoutes = [
@@ -39,6 +43,14 @@ export const publicRoutes = [
     {
         path: NEW_PASS_ROUTE,
         component: <NewPassword/>,
+    },
+    {
+        path: PACKS_ROUTE,
+        component: <Packs/>,
+    },
+    {
+        path: CARDS_ROUTE,
+        component: <Cards/>,
     },
     {
         path: DEMONSTRATION_ROUTE,
