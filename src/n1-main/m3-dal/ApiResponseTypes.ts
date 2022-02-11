@@ -27,3 +27,8 @@ export type RegisterParamsType = {
     email: string;
     password: string;
 }
+export type RecoveryParamsType = {
+    email: string;
+    from: string;
+    message:string
+}
