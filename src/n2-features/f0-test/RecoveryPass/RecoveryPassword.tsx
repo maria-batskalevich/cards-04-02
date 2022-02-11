@@ -33,6 +33,6 @@ export const RecoveryPassword = (): React.ReactElement => {
                              disabled={entityStatus === 'loading'}
                              error={error}
         /></div>Send link to reset password
-        <div><SuperButton onClick={recoveryPass}>Send</SuperButton></div>
+        <div><SuperButton onClick={recoveryPass} disabled={entityStatus === 'loading'}>Send</SuperButton></div>
     </div>
 }
