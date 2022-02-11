@@ -1,5 +1,11 @@
 import axios from 'axios';
-import {ApiResponseTypes, AuthLoginResponseTypes, AuthLoginTypes, RegisterParamsType} from "./ApiResponseTypes";
+import {
+    ApiResponseTypes,
+    AuthLoginResponseTypes,
+    AuthLoginTypes,
+    RegisterParamsType,
+    UpdateUserDataType
+} from "./ApiResponseTypes";
 
 
 // const settings = {
@@ -32,6 +38,9 @@ export const API = {
     },
     profileInfo() {
         return instance.post<any>('auth/me', {})
+    },
+    updateUser(param: UpdateUserDataType) {
+        return instance.put("auth/me", param)
     }
 };
 

@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {SetUserThunk} from "./ProfileReducer";
+import {initLoginStateType, SetAvatarAction, SetNameAction, SetUserThunk, UpdateUserData} from "./ProfileReducer";
+import {Loader} from "../../../n1-main/m1-ui/common/c4-Loadrer-Spinner/loader";
+import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 
 export const Profile = () => {
 
-    const {name, email} = useSelector<AppRootStateType, { name: string, email: string }>(state => state.profile)
+    const {name, email, isLoading, avatar} = useSelector<AppRootStateType, initLoginStateType>(state => state.profile)
 
     const [editMode, setEditMode] = useState(false)
 
@@ -15,33 +17,79 @@ export const Profile = () => {
         console.log(name, email)
     }, [dispatch])
 
-    return (
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: "center", alignItems: "center"}}>
+    const updateUserData = () => {
+        setEditMode(false)
+        dispatch(UpdateUserData({name: name, avatar: avatar}))
+    }
+
+    const updateName = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(SetNameAction(e.currentTarget.value))
+    }
+    const updateAvatar = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(SetAvatarAction(e.currentTarget.value))
+    }
+
+    if (isLoading) {
+        return (
+            <div style={{
+                padding: "20px",
+                margin: "0 auto",
+                width: "50vw",
+                height: "50vh",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: "space-between",
+                alignItems: "center",
+                border: "1px solid black",
+                borderRadius: '20px',
+            }}>
+                <h1>PROFILE COMPONENT</h1>
+                <Loader/>
+            </div>)
+    } else return (
+        <div style={{
+            padding: "20px",
+            margin: "0 auto",
+            width: "50vw",
+            height: "50vh",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: "space-between",
+            alignItems: "center",
+            border: "1px solid black",
+            borderRadius: '20px',
+        }}>
             <h1>PROFILE COMPONENT</h1>
 
-                <img
-                    style={{borderRadius: '50%', width: '150px', height: '150px'}}
-                    src="https://avatars.mds.yandex.net/i?id=a53f190616d5598d4d70d2488508ec89-5499599-images-thumbs&n=13"
-                    alt=""/>
             {!editMode
                 ?
                 <>
+                    <img
+                        style={{borderRadius: '50%', width: '150px', height: '150px'}}
+                        src={avatar}
+                        alt=""/>
                     <div>{name}</div>
                     <div>{email}</div>
 
-                    <button onClick={() => setEditMode(true)}>Edit</button>
+                    <SuperButton onClick={() => setEditMode(true)}>Edit</SuperButton>
                 </>
                 :
                 <>
-
-                    <span>Name</span>
-                    <input type="text" placeholder={name}/>
-                    <span>Email</span>
-                    <input type="text" placeholder={email}/>
+                    <img
+                        style={{borderRadius: '50%', width: '150px', height: '150px'}}
+                        src={avatar}
+                        alt=""/>
+                    <div>Avatar: </div>
+                    <input type="text" value={avatar} onChange={updateAvatar} placeholder={'http:'}/>
+                    <span>Name :</span>
+                    <input type="text" value={name} onChange={updateName} placeholder={name}/>
+                    <span>Email :</span>
+                    <div>{email}</div>
                     <div>
-                        <button>Cansel</button>
-                        <button onClick={() => setEditMode(false)}>Save</button>
+                        <SuperButton onClick={() => setEditMode(false)}>Cansel</SuperButton>
+                        <SuperButton onClick={updateUserData}>Save</SuperButton>
                     </div>
+
                 </>
             }
         </div>
