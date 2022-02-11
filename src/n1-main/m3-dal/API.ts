@@ -3,8 +3,8 @@ import {
     ApiResponseTypes,
     AuthLoginResponseTypes,
     AuthLoginTypes,
-    RecoveryParamsType,
-    RegisterParamsType
+    RegisterParamsType,
+    UpdateUserDataType
 } from "./ApiResponseTypes";
 
 
@@ -30,11 +30,11 @@ export const API = {
         login: (param: AuthLoginTypes) => instance.post<AuthLoginTypes, ApiResponseTypes<{ data: AuthLoginResponseTypes }>>('auth/login', param),
     },
     recoveryPasswordAPI: {
-        recoveryPass: (param: RecoveryParamsType) =>
-            instance.post<RecoveryParamsType, ApiResponseTypes>('auth/forgot', param),
+        recoveryPass: (param: string) =>
+            instance.post<string, ApiResponseTypes>('', {param}),
     },
     registration(param: RegisterParamsType) {
-        return instance.post<{ addedUser: AuthLoginResponseTypes }>('auth/register', param)
+        return instance.post<{ addedUser: AuthLoginResponseTypes }>('/auth/register', param)
     },
     profileInfo() {
         return instance.post<any>('auth/me', {})
