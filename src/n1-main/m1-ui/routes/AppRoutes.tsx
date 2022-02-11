@@ -1,4 +1,4 @@
-import {Demonstration} from '../../../n2-features/f0-test/Demonstration';
+// import {Demonstration} from '../../../n2-features/f0-test/Demonstration';
 import {Login} from '../../../n2-features/f0-test/Login/Login';
 import {NewPassword} from '../../../n2-features/f0-test/New password/NewPassword';
 import {NotFound} from '../../../n2-features/f0-test/NotFound';
@@ -52,10 +52,10 @@ export const publicRoutes = [
         path: CARDS_ROUTE,
         component: <Cards/>,
     },
-    {
-        path: DEMONSTRATION_ROUTE,
-        component: <Demonstration/>,
-    },
+    // {
+    //     path: DEMONSTRATION_ROUTE,
+    //     component: <Demonstration/>,
+    // },
 ];
 
 export const AppRoutes = () => (
