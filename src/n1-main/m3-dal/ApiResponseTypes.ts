@@ -32,3 +32,9 @@ export type UpdateUserDataType = {
     avatar: string
     name: string
 }
+
+export type RecoveryParamsType = {
+    email: string
+    from: string
+    message: string
+}

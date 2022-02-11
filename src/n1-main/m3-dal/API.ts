@@ -4,6 +4,7 @@ import {
     AuthLoginResponseTypes,
     AuthLoginTypes,
     RegisterParamsType,
+    RecoveryParamsType,
     UpdateUserDataType
 } from "./ApiResponseTypes";
 
