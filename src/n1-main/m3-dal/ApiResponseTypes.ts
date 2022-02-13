@@ -38,7 +38,7 @@ export type RecoveryParamsType = {
     from: string
     message: string
 }
-export type CardPacksType = {
+export type CardPacksResponseType = {
     _id: string;
     user_id: string;
     name: string;
@@ -52,11 +52,21 @@ export type CardPacksType = {
     updated: string;
     __v: number;
 }
-export type CardsPacksType = {
-    cardPacks: Array<CardPacksType>;
+export type CardsPacksResponseType = {
+    cardPacks: Array<CardPacksResponseType>;
     cardPacksTotalCount: number;
     maxCardsCount: number;
     minCardsCount: number;
     page: number;
     pageCount: number;
 };
+export type CardsPacksType = {
+        name: string
+        path: string
+        grade: number
+        shots: number
+        rating: number
+        deckCover: string
+        private: boolean
+        type: string
+}

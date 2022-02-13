@@ -1,38 +1,22 @@
-import {ReactElement, useEffect} from "react";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../../n1-main/m2-bll/store";
+import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {Packs} from "./Packs";
-import {FetchPacksThunk} from "./PacksReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {CardPacksType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 
-export const PacksList = (): ReactElement => {
+type PacksListPropsType = {
+    addPack: boolean
+    setAddPack: (addPack: boolean) => void
+}
+export const PacksList = (props: PacksListPropsType) => {
 
-    const dispatch = useDispatch()
-    const isLoading = useSelector<AppRootStateType>(state => state.profile.isLoading)
-    const cardsPacks = useSelector<AppRootStateType, Array<CardPacksType>>(state => state.packs.cardPacks)
+    const cardsPacks = useSelector<AppRootStateType, Array<CardPacksResponseType>>(state => state.packs.cardPacks)
 
-    useEffect(() => {
-        if(!isLoading) return
-        dispatch(FetchPacksThunk())
-    }, [dispatch])
-
-    return (
-        <div>
-            <div>
-                <div>
-                    <span>Show packs cards</span>
-                    <SuperButton>My</SuperButton>
-                    <SuperButton>ALL</SuperButton>
-                </div>
-                <div>
-                    <span>Number of cards</span>
-                    <input type={'range'}/>
-                </div>
-            </div>
-            <div>
-                <Packs cardsPacks = {cardsPacks}/>
-            </div>
-        </div>
-    );
-};
+    const onClickHandler = () => {
+        props.setAddPack(true)
+    }
+    return <div>
+        <SuperButton onClick={onClickHandler}>Add new pack</SuperButton>
+        <Packs cardsPacks={cardsPacks}/>
+    </div>
+}

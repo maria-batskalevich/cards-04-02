@@ -6,7 +6,7 @@ import {Profile} from '../../../n2-features/f0-test/Profile/Profile';
 import {RecoveryPassword} from '../../../n2-features/f0-test/RecoveryPass/RecoveryPassword';
 import {Registration} from '../../../n2-features/f0-test/Registration/Registration';
 import {Route, Routes} from 'react-router-dom';
-import {PacksList} from "../../../n2-features/f1-table/Packs/PacksList";
+import {PacksListContainer} from "../../../n2-features/f1-table/Packs/PacksListContainer";
 import {Cards} from "../../../n2-features/f1-table/Cards/Cards";
 
 export const NOT_FOUND_ROUTE = '*';
@@ -46,7 +46,7 @@ export const publicRoutes = [
     },
     {
         path: PACKS_ROUTE,
-        component: <PacksList/>,
+        component: <PacksListContainer/>,
     },
     {
         path: CARDS_ROUTE,

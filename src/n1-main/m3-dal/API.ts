@@ -5,7 +5,7 @@ import {
     AuthLoginTypes,
     RegisterParamsType,
     RecoveryParamsType,
-    UpdateUserDataType, CardsPacksType
+    UpdateUserDataType, CardsPacksResponseType, CardPacksResponseType, CardsPacksType
 } from "./ApiResponseTypes";
 
 
@@ -46,7 +46,9 @@ export const API = {
     },
     packsAPI: {
         getPacks: () =>
-            instance.get<CardsPacksType>('cards/pack')
+            instance.get<CardsPacksResponseType>('cards/pack'),
+        addPacks: (packName: string) =>
+            instance.post<{ newCardPacks: CardsPacksType }, ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack', {cardsPack: {name: packName}})
     }
 };
 

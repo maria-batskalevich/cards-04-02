@@ -1,8 +1,8 @@
 import {ReactElement} from "react";
-import {CardPacksType} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 
 type PacksPropsType = {
-    cardsPacks: CardPacksType[]
+    cardsPacks?: CardPacksResponseType[]
 }
 export const Packs = (props: PacksPropsType): ReactElement => {
     return <div>
@@ -16,8 +16,8 @@ export const Packs = (props: PacksPropsType): ReactElement => {
             </tr>
             </thead>
             <tbody>
-            {props.cardsPacks.map((c) => {
-               return <tr>
+            {props.cardsPacks && props.cardsPacks[0] && props.cardsPacks.map((c) => {
+               return <tr  key={c._id}>
                     <td>{c.name}</td>
                     <td>{c.cardsCount}</td>
                     <td>{c.updated}</td>
