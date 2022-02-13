@@ -47,7 +47,7 @@ export const Login = (): React.ReactElement => {
             <SuperCheckbox type={'checkbox'} checked={rememberMe}
                            onChange={changeRememberMe} disabled={entityStatus === 'loading'}/>
         </div>
-        <div><a href={''}>forgot?</a></div>
+        <div><a href={'RECOVERY_PASS_ROUTE#/recoveryPass'}>forgot?</a></div>
         <div><SuperButton onClick={login} disabled={entityStatus === 'loading'}>Login</SuperButton></div>
         <div><a href={''}>Don't have an account?</a></div>
         <div><SuperButton>Sign Up</SuperButton></div>

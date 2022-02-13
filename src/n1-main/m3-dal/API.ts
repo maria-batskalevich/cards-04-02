@@ -1,5 +1,12 @@
 import axios from 'axios';
-import {ApiResponseTypes, AuthLoginResponseTypes, AuthLoginTypes, RegisterParamsType} from "./ApiResponseTypes";
+import {
+    ApiResponseTypes,
+    AuthLoginResponseTypes,
+    AuthLoginTypes,
+    RegisterParamsType,
+    RecoveryParamsType,
+    UpdateUserDataType
+} from "./ApiResponseTypes";
 
 
 // const settings = {
@@ -24,15 +31,18 @@ export const API = {
         login: (param: AuthLoginTypes) => instance.post<AuthLoginTypes, ApiResponseTypes<{ data: AuthLoginResponseTypes }>>('auth/login', param),
     },
     recoveryPasswordAPI: {
-        recoveryPass: (param: string) =>
-            instance.post<string, ApiResponseTypes>('', {param}),
+        recoveryPass: (param: RecoveryParamsType) =>
+            instance.post<RecoveryParamsType, ApiResponseTypes>('auth/forgot', param),
     },
     registration(param: RegisterParamsType) {
         return instance.post<{ addedUser: AuthLoginResponseTypes }>('/auth/register', param)
     },
     profileInfo() {
         return instance.post<any>('auth/me', {})
-    }
+    },
+    updateUser(param: UpdateUserDataType) {
+    return instance.put("auth/me", param)
+}
 };
 
 
