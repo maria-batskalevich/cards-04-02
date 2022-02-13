@@ -1,10 +1,10 @@
 import {ReactElement} from "react";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {CardPacksType} from "./PacksReducer";
+import {CardPacksType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 
-export const Packs = (): ReactElement => {
-    const cardsPacks = useSelector<AppRootStateType, Array<CardPacksType>>(state => state.packs.cardPacks)
+type PacksPropsType = {
+    cardsPacks: CardPacksType[]
+}
+export const Packs = (props: PacksPropsType): ReactElement => {
     return <div>
         <table>
             <thead>
@@ -16,7 +16,7 @@ export const Packs = (): ReactElement => {
             </tr>
             </thead>
             <tbody>
-            {cardsPacks.map((c) => {
+            {props.cardsPacks.map((c) => {
                return <tr>
                     <td>{c.name}</td>
                     <td>{c.cardsCount}</td>

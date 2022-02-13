@@ -1,49 +1,15 @@
-export type CardPacksType = {
-    _id: string;
-    user_id: string;
-    name: string;
-    path: string;
-    cardsCount: number;
-    grade: number;
-    shots: number;
-    rating: number;
-    type: string;
-    created: string;
-    updated: string;
-    __v: number;
-}
-export type CardsPacksType = {
-    cardPacks: Array<CardPacksType>;
-    cardPacksTotalCount: number;
-    maxCardsCount: number;
-    minCardsCount: number;
-    page: number;
-    pageCount: number;
-};
+import {Dispatch} from "redux";
+import {API} from "../../../n1-main/m3-dal/API";
+import {CardsPacksType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 
 const initCardPacksState = {
-    cardPacks: [
-        {
-            _id: '',
-            user_id: '',
-            name: '',
-            path: '', // папка
-            cardsCount: 0,
-            grade: 0,  // средняя оценка карточек
-            shots: 0, // количество попыток
-            rating: 0, // лайки
-            type: '', // ещё будет "folder" (папка)
-            created: '',
-            updated: '',
-            __v: 0,
-        },
-    ],
+    cardPacks: [],
     token: '',
     cardPacksTotalCount: 0, // количество колод
     maxCardsCount: 0,
     minCardsCount: 0,
-    page: 1,  // выбранная страница
-    pageCount: 4, // количество элементов на странице
+    page: 4,  // выбранная страница
+    pageCount: 1000, // количество элементов на странице
 };
 
 
@@ -59,8 +25,16 @@ export const PacksReducer = (
             return state;
     }
 };
+//action
+export const SetCardPacksAC = (cardsPacks: CardsPacksType) => {
+    return {type: 'CARD_PACKS', payload: cardsPacks} as const
+};
 
-export const SetCardPacksAC = (payload: CardsPacksType) =>
-    ({type: 'CARD_PACKS', payload} as const);
-
+//thunk
+export const FetchPacksThunk = () => (dispatch: Dispatch) => {
+    API.packsAPI.getPacks()
+        .then(res => dispatch(SetCardPacksAC(res.data)))
+        .catch(err => console.log(err.message))
+}
 export type CardPacksActionTypes = ReturnType<typeof SetCardPacksAC>;
+
