@@ -32,7 +32,7 @@ export const RecoveryPassword = (): React.ReactElement => {
         dispatch(RecoverPassThunk({email, from, message}))
     }
     if (recoveryLinkSent) {
-        return <Navigate to={'/newPass/token'}/>
+        return <Navigate to={'/newPass:token'}/>
     }
     return <div>email
         <div><SuperInputText type={'email'} placeholder={'Email'}

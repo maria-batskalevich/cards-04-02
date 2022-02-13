@@ -30,7 +30,6 @@ export const NewPassword = () => {
             password: password,
             resetPasswordToken: token
         }))
-
     }
     if (passwordChanged) {
         return <Navigate to={'/profile'}/>

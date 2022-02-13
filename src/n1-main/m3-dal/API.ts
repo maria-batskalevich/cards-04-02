@@ -5,7 +5,7 @@ import {
     AuthLoginTypes,
     RegisterParamsType,
     RecoveryParamsType,
-    UpdateUserDataType
+    UpdateUserDataType, NewPasswordParamsType
 } from "./ApiResponseTypes";
 
 
@@ -30,9 +30,11 @@ export const API = {
     loginAPI: {
         login: (param: AuthLoginTypes) => instance.post<AuthLoginTypes, ApiResponseTypes<{ data: AuthLoginResponseTypes }>>('auth/login', param),
     },
-    recoveryPasswordAPI: {
-        recoveryPass: (param: RecoveryParamsType) =>
-            instance.post<RecoveryParamsType, ApiResponseTypes>('auth/forgot', param),
+    recoveryPass(param: RecoveryParamsType) {
+        return instance.post<RecoveryParamsType, ApiResponseTypes>('auth/forgot', param)
+    },
+    newPassword(param: NewPasswordParamsType) {
+        return instance.post<NewPasswordParamsType, ApiResponseTypes>('auth/set-new-password', param)
     },
     registration(param: RegisterParamsType) {
         return instance.post<{ addedUser: AuthLoginResponseTypes }>('/auth/register', param)
@@ -41,8 +43,8 @@ export const API = {
         return instance.post<any>('auth/me', {})
     },
     updateUser(param: UpdateUserDataType) {
-    return instance.put("auth/me", param)
-}
+        return instance.put("auth/me", param)
+    }
 };
 
 
