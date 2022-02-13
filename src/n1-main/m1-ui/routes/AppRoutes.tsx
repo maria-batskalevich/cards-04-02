@@ -12,7 +12,7 @@ export const LOGIN_ROUTE = 'login';
 export const REG_ROUTE = 'register';
 export const PROFILE_ROUTE = 'profile';
 export const RECOVERY_PASS_ROUTE = 'recoveryPass';
-export const NEW_PASS_ROUTE = 'newPass';
+export const NEW_PASS_ROUTE = 'newPass/:token';
 export const DEMONSTRATION_ROUTE = 'demonstration';
 
 export const publicRoutes = [

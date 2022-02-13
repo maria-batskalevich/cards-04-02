@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     ApiResponseTypes,
     AuthLoginResponseTypes,
-    AuthLoginTypes,
+    AuthLoginTypes, NewPasswordParamsType,
     RecoveryParamsType,
     RegisterParamsType
 } from "./ApiResponseTypes";
@@ -29,9 +29,13 @@ export const API = {
     loginAPI: {
         login: (param: AuthLoginTypes) => instance.post<AuthLoginTypes, ApiResponseTypes<{ data: AuthLoginResponseTypes }>>('auth/login', param),
     },
-    recoveryPasswordAPI: {
-        recoveryPass: (param: RecoveryParamsType) =>
-            instance.post<RecoveryParamsType, ApiResponseTypes>('auth/forgot', param),
+
+    recoveryPass(param: RecoveryParamsType) {
+        return instance.post<RecoveryParamsType, ApiResponseTypes>('auth/forgot', param)
+    }
+    ,
+    newPassword(param: NewPasswordParamsType) {
+        return instance.post<NewPasswordParamsType, ApiResponseTypes>('auth/set-new-password',param)
     },
     registration(param: RegisterParamsType) {
         return instance.post<{ addedUser: AuthLoginResponseTypes }>('auth/register', param)

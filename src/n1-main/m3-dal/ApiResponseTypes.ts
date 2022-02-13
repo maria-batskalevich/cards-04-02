@@ -30,5 +30,10 @@ export type RegisterParamsType = {
 export type RecoveryParamsType = {
     email: string;
     from: string;
-    message:string
+    message: string
+}
+
+export type NewPasswordParamsType = {
+    password: string;
+    resetPasswordToken: any
 }
