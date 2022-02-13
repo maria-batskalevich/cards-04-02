@@ -1,18 +1,19 @@
+export type CardPacksType = {
+    _id: string;
+    user_id: string;
+    name: string;
+    path: string;
+    cardsCount: number;
+    grade: number;
+    shots: number;
+    rating: number;
+    type: string;
+    created: string;
+    updated: string;
+    __v: number;
+}
 export type CardsPacksType = {
-    cardPacks: Array<{
-        _id: string;
-        user_id: string;
-        name: string;
-        path: string;
-        cardsCount: number;
-        grade: number;
-        shots: number;
-        rating: number;
-        type: string;
-        created: string;
-        updated: string;
-        __v: number;
-    }>;
+    cardPacks: Array<CardPacksType>;
     cardPacksTotalCount: number;
     maxCardsCount: number;
     minCardsCount: number;
