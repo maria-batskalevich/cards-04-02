@@ -2,48 +2,55 @@ import SuperButton from "../c2-SuperButton/SuperButton";
 import SuperInputText from "../c1-SuperInputText/SuperInputText";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
 import {PacksList} from "../../../../n2-features/f1-table/Packs/PacksList";
-import {AddCardPacksThunk} from "../../../../n2-features/f1-table/Packs/PacksReducer";
 import {useDispatch} from "react-redux";
+import {ThunkType} from "../../../m2-bll/store";
 
 type AddItemPropsType = {
-    title: string
+    itemTitle: string
+    callback: (title: string) => ThunkType
 }
 export const AddItem = (props: AddItemPropsType) => {
     const dispatch = useDispatch()
 
-    const [addPack, setAddPack] = useState<boolean>(true)
+    const [addItem, setAddItem] = useState<boolean>(true)
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
-    const cancelHandler = () => setAddPack(false)
+    const commonHandlerWithoutError = () => {
+        setAddItem(false)
+        setTitle('')
+    }
+    const commonHandlerWithError = () => {
+        setError('Field is required!')
+        if (error !== null) setError(null)
+    }
+    const cancelHandler = () => {
+        commonHandlerWithoutError()
+    }
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
     const saveHandler = () => {
         if (title.trim() !== '') {
-            dispatch(AddCardPacksThunk(title))
-            setAddPack(false)
-            setTitle('')
+            dispatch(props.callback(title))
+            commonHandlerWithoutError()
         } else if (title.trim() === ''){
-            setError('Field is required!')
-            if (error !== null) setError(null)
+            commonHandlerWithError()
         }
     }
     const onKeyPressHandler = (e:KeyboardEvent<HTMLInputElement>) => {
         if(error !== null) setError(null)
         if(e.charCode === 13 && title.trim() !== ''){
-            dispatch(AddCardPacksThunk(title))
-            setAddPack(false)
-            setTitle('')
+            dispatch(props.callback(title))
+            commonHandlerWithoutError()
         } else if (e.charCode === 13 && title.trim() === ''){
-            setError('Field is required!')
-            if (error !== null) setError(null)
+            commonHandlerWithError()
         }
     }
 
     return <div>
-        {addPack
+        {addItem
         ? <div>
                 <div>
-                    <span>{props.title}</span>
+                    <span>{props.itemTitle}</span>
                     <SuperButton>X</SuperButton>
                 </div>
                 <SuperInputText placeholder={'Title pack'} value = {title}
@@ -56,6 +63,6 @@ export const AddItem = (props: AddItemPropsType) => {
                     <SuperButton onClick={saveHandler}>Save</SuperButton>
                 </div>
             </div>
-        : <PacksList addPack={addPack} setAddPack={setAddPack}/>}
+        : <PacksList addPack={addItem} setAddPack={setAddItem}/>}
     </div>
 }

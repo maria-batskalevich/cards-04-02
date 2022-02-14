@@ -1,6 +1,6 @@
 import {ReactElement, useEffect, useState} from "react";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
-import {FetchPacksThunk} from "./PacksReducer";
+import {AddCardPacksThunk, FetchPacksThunk} from "./PacksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {AddItem} from "../../../n1-main/m1-ui/common/AddItemForm/AddItem";
@@ -33,7 +33,7 @@ export const PacksListContainer = (): ReactElement => {
             </div>
             <div>
                 {addPack
-                    ? <AddItem title={'Add new pack'}/>
+                    ? <AddItem itemTitle={'Add new pack'} callback={AddCardPacksThunk}/>
                     : <PacksList addPack={addPack} setAddPack={setAddPack}/>}
             </div>
         </div>
