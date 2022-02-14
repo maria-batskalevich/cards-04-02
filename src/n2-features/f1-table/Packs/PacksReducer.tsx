@@ -26,6 +26,9 @@ export const PacksReducer = (
         case "packs/DELETE_CARDS_PACK": {
             return {...state, cardPacks: state.cardPacks.filter(p => p._id !== action.idPack)}
         }
+        case "packs/UPDATE_CARDS_PACK":{
+            return {...state, cardPacks: state.cardPacks.map(p => p._id === action.idPack ? {...p, name: action.packName} : p)}
+        }
         default:
             return state;
     }
@@ -39,6 +42,9 @@ export const AddNewCardsPackAC = (newCardsPack: CardPacksResponseType) => {
 }
 export const DeleteCardsPackAC = (idPack: string) => {
     return {type: 'packs/DELETE_CARDS_PACK', idPack} as const
+}
+export const UpdateCardsPackAC = (idPack: string, packName: string) => {
+    return {type: 'packs/UPDATE_CARDS_PACK', idPack, packName} as const
 }
 //thunk
 export const FetchPacksThunk = () => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
@@ -60,8 +66,16 @@ export const DeleteCardsPackThunk = (idPack: string): ThunkType => (dispatch) =>
             dispatch(FetchPacksThunk())
         })
 }
+export const UpdateCardsPackThunk = (idPack: string, packName: string): ThunkType => (dispatch) => {
+    API.packsAPI.updatePack(idPack, packName)
+        .then(res => {
+            dispatch(UpdateCardsPackAC(idPack,packName))
+            dispatch(FetchPacksThunk())
+        })
+}
 export type CardPacksActionTypes =
     ReturnType<typeof SetCardsPackAC>
     | ReturnType<typeof AddNewCardsPackAC>
-    | ReturnType<typeof DeleteCardsPackAC>;
+    | ReturnType<typeof DeleteCardsPackAC>
+    | ReturnType<typeof UpdateCardsPackAC>;
 

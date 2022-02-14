@@ -24,10 +24,10 @@ export const AddItem = (props: AddItemPropsType) => {
         setError('Field is required!')
         if (error !== null) setError(null)
     }
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
     const cancelHandler = () => {
         commonHandlerWithoutError()
     }
-    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
     const saveHandler = () => {
         if (title.trim() !== '') {
             dispatch(props.callback(title))
@@ -51,7 +51,6 @@ export const AddItem = (props: AddItemPropsType) => {
         ? <div>
                 <div>
                     <span>{props.itemTitle}</span>
-                    <SuperButton>X</SuperButton>
                 </div>
                 <SuperInputText placeholder={'Title pack'} value = {title}
                                 onChange={onChangeTitleHandler}

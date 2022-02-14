@@ -61,12 +61,13 @@ export type CardsPacksResponseType = {
     pageCount: number;
 };
 export type CardsPacksType = {
-        name: string
-        path: string
-        grade: number
-        shots: number
-        rating: number
-        deckCover: string
-        private: boolean
-        type: string
+    _id: string;
+    name: string
+    path: string
+    grade: number
+    shots: number
+    rating: number
+    deckCover: string
+    private: boolean
+    type: string
 }

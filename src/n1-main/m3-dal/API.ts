@@ -48,9 +48,13 @@ export const API = {
         getPack: () =>
             instance.get<CardsPacksResponseType>('cards/pack'),
         addPack: (packName: string) =>
-            instance.post<{ newCardPacks: CardsPacksType }, ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack', {cardsPack: {name: packName}}),
+            instance.post<{ newCardPacks: CardsPacksType },
+                ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack', {cardsPack: {name: packName}}),
         deletePack: (idPack: string) =>
-            instance.delete<CardsPacksResponseType>('cards/pack', {params: {id: idPack}})
+            instance.delete<CardsPacksResponseType>('cards/pack', {params: {id: idPack}}),
+        updatePack:(idPack: string, packName: string) =>
+            instance.put<{ updateCardPacks: CardsPacksType },
+                ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack',{cardsPack: {_id: idPack, name: packName}})
     }
 };
 
