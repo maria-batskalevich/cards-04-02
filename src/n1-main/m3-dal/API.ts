@@ -45,10 +45,12 @@ export const API = {
         return instance.put("auth/me", param)
     },
     packsAPI: {
-        getPacks: () =>
+        getPack: () =>
             instance.get<CardsPacksResponseType>('cards/pack'),
-        addPacks: (packName: string) =>
-            instance.post<{ newCardPacks: CardsPacksType }, ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack', {cardsPack: {name: packName}})
+        addPack: (packName: string) =>
+            instance.post<{ newCardPacks: CardsPacksType }, ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack', {cardsPack: {name: packName}}),
+        deletePack: (idPack: string) =>
+            instance.delete<CardsPacksResponseType>('cards/pack', {params: {id: idPack}})
     }
 };
 
