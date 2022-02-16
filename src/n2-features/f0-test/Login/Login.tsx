@@ -7,6 +7,7 @@ import SuperInputText from "../../../n1-main/m1-ui/common/c1-SuperInputText/Supe
 import SuperCheckbox from "../../../n1-main/m1-ui/common/c3-SuperCheckbox/SuperCheckbox";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {LoadingProgress} from '../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress';
+import s from './Login.module.css'
 
 export const Login = (): React.ReactElement => {
     console.log('login')
@@ -34,7 +35,7 @@ export const Login = (): React.ReactElement => {
     if (isLoggedIn) {
         return <Navigate to={'/profile'}/>
     }
-    return <div>
+    return <div className={s.loginContainer}>
         {statusApp === 'loading' && <LoadingProgress/>}
         <h1>Sign In</h1>
         <div><SuperInputText type={'email'} placeholder={'Email'} value={email}
