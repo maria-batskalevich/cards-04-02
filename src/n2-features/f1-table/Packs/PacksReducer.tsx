@@ -7,11 +7,11 @@ import {handleInternetError, handleResponse} from "../../../n1-main/m1-ui/common
 const initCardPacksState = {
     cardPacks: [],
     token: '',
-    cardPacksTotalCount: 0, // количество колод
-    maxCardsCount: 0,
+    cardPacksTotalCount: 4142, // количество колод
+    maxCardsCount: 103,
     minCardsCount: 0,
-    page: 4,  // выбранная страница
-    pageCount: 1000, // количество элементов на странице
+    page: 1,  // выбранная страница
+    pageCount: 10, // количество элементов на странице
 };
 
 
@@ -20,6 +20,12 @@ export const PacksReducer = (
     switch (action.type) {
         case 'packs/CARDS_PACK': {
             return {...state, ...action.payload, cardPacks: action.payload.cardPacks};
+        }
+        case 'packs/PRIVATE_CARDS_PACK': {
+            return {...state, cardPacks: state.cardPacks.filter(p => p.user_id === action.payload.user_id)};
+        }
+        case 'packs/SET-COUNT-ON-PAGE': {
+            return {...state, pageCount: action.payload.pageCount};
         }
         case 'packs/ADD_CARDS_PACK': {
             return {...state, cardPacks: [action.newCardPacks, ...state.cardPacks]}
@@ -38,6 +44,12 @@ export const PacksReducer = (
 export const SetCardsPackAC = (cardsPack: CardsPacksResponseType) => {
     return {type: 'packs/CARDS_PACK', payload: cardsPack} as const
 };
+export const SetPrivateCardsPackAC = (user_id: string | null | undefined) => {
+    return {type: 'packs/PRIVATE_CARDS_PACK', payload: {user_id}} as const
+};
+export const SetPageCountAC = (countOnPage: number) => {
+    return {type: 'packs/SET-COUNT-ON-PAGE', payload: {pageCount: countOnPage}} as const
+};
 export const AddNewCardsPackAC = (newCardsPack: CardPacksResponseType) => {
     return {type: 'packs/ADD_CARDS_PACK', newCardPacks: newCardsPack} as const
 }
@@ -54,8 +66,18 @@ export const FetchPacksThunk = () => (dispatch: AppDispatch, getState: () => App
     API.packsAPI.getPack()
         .then(res => {
             handleResponse(dispatch, SetCardsPackAC(res.data))
+            dispatch(SetPageCountAC(10))
         })
-        .catch(err => handleInternetError(dispatch, err.response))
+        .catch(err => handleInternetError(dispatch, err.response.message))
+}
+export const SetPrivatePacksThunk = (user_id: string | null | undefined) => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
+    API.packsAPI.getPack()
+        .then(res => {
+            handleResponse(dispatch, SetPrivateCardsPackAC(user_id))
+        })
+        .catch(err => handleInternetError(dispatch, err.response.message))
 }
 export const AddCardsPackThunk = (packName: string): ThunkType => (dispatch) => {
     dispatch(SetStatusApp('loading'))
@@ -65,7 +87,7 @@ export const AddCardsPackThunk = (packName: string): ThunkType => (dispatch) => 
             dispatch(FetchPacksThunk())
             handleResponse(dispatch, AddNewCardsPackAC(res.data.data))
         })
-        .catch(err => handleInternetError(dispatch, err.response))
+        .catch(err => handleInternetError(dispatch, err.response.message))
 }
 export const DeleteCardsPackThunk = (idPack: string): ThunkType => (dispatch) => {
     dispatch(SetStatusApp('loading'))
@@ -75,7 +97,7 @@ export const DeleteCardsPackThunk = (idPack: string): ThunkType => (dispatch) =>
             dispatch(FetchPacksThunk())
             handleResponse(dispatch, DeleteCardsPackAC(idPack))
         })
-        .catch(err => handleInternetError(dispatch, err.response))
+        .catch(err => handleInternetError(dispatch, err.response.message))
 }
 export const UpdateCardsPackThunk = (idPack: string, packName: string): ThunkType => (dispatch) => {
     dispatch(SetStatusApp('loading'))
@@ -85,11 +107,13 @@ export const UpdateCardsPackThunk = (idPack: string, packName: string): ThunkTyp
             dispatch(FetchPacksThunk())
             handleResponse(dispatch, UpdateCardsPackAC(idPack,packName))
         })
-        .catch(err => handleInternetError(dispatch, err.response))
+        .catch(err => handleInternetError(dispatch, err.response.message))
 }
 export type CardPacksActionTypes =
     ReturnType<typeof SetCardsPackAC>
     | ReturnType<typeof AddNewCardsPackAC>
     | ReturnType<typeof DeleteCardsPackAC>
-    | ReturnType<typeof UpdateCardsPackAC>;
+    | ReturnType<typeof UpdateCardsPackAC>
+    | ReturnType<typeof SetPrivateCardsPackAC>
+    | ReturnType<typeof SetPageCountAC>;
 
