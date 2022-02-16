@@ -25,10 +25,6 @@ const instance = axios.create({
 });
 
 export const API = {
-    appAPI: {
-        fakeRequest: (param: string) =>
-            instance.post<string, ApiResponseTypes>('', {param}),
-    },
     loginAPI: {
         login: (param: AuthLoginTypes) => instance.post<AuthLoginTypes, ApiResponseTypes<{ data: AuthLoginResponseTypes }>>('auth/login', param),
     },

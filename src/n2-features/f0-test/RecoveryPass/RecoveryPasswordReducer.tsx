@@ -1,14 +1,7 @@
-import {
-    AuthLoginTypes,
-    RecoveryParamsType
-} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {RecoveryParamsType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Dispatch} from "redux";
 import {API} from "../../../n1-main/m3-dal/API";
-import {
-    LoginAction,
-    SetEntityStatus, SetError,
-    SetStatusApp
-} from "../Login/LoginReducer";
+import {SetEntityStatus, SetError, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
 
 export type initRecoveryStateType = {
     recoveryLinkSent: boolean;
@@ -41,7 +34,6 @@ export const RecoverPassThunk = (param: RecoveryParamsType) => (dispatch: Dispat
     dispatch(SetEntityStatus('loading'))
 
     API.recoveryPasswordAPI.recoveryPass(param)
-        //.fakeRequest(param)
         .then(res => {
             dispatch(RecoveryPassAction(true))
             dispatch(SetStatusApp('succeeded'))

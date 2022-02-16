@@ -1,6 +1,8 @@
 import {API} from "../../../n1-main/m3-dal/API";
 import {CardPacksResponseType, CardsPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {AppDispatch, AppRootStateType, ThunkType} from "../../../n1-main/m2-bll/store";
+import {SetEntityStatus, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
+import {handleInternetError, handleResponse} from "../../../n1-main/m1-ui/common/utils";
 
 const initCardPacksState = {
     cardPacks: [],
@@ -47,30 +49,43 @@ export const UpdateCardsPackAC = (idPack: string, packName: string) => {
 }
 //thunk
 export const FetchPacksThunk = () => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     API.packsAPI.getPack()
-        .then(res => dispatch(SetCardsPackAC(res.data)))
-        .catch(err => console.log(err.message))
+        .then(res => {
+            handleResponse(dispatch, SetCardsPackAC(res.data))
+        })
+        .catch(err => handleInternetError(dispatch, err.response))
 }
 export const AddCardsPackThunk = (packName: string): ThunkType => (dispatch) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     API.packsAPI.addPack(packName)
         .then(res => {
-            dispatch(AddNewCardsPackAC(res.data.data))
             dispatch(FetchPacksThunk())
+            handleResponse(dispatch, AddNewCardsPackAC(res.data.data))
         })
+        .catch(err => handleInternetError(dispatch, err.response))
 }
 export const DeleteCardsPackThunk = (idPack: string): ThunkType => (dispatch) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     API.packsAPI.deletePack(idPack)
         .then(res => {
-            dispatch(DeleteCardsPackAC(idPack))
             dispatch(FetchPacksThunk())
+            handleResponse(dispatch, DeleteCardsPackAC(idPack))
         })
+        .catch(err => handleInternetError(dispatch, err.response))
 }
 export const UpdateCardsPackThunk = (idPack: string, packName: string): ThunkType => (dispatch) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     API.packsAPI.updatePack(idPack, packName)
         .then(res => {
-            dispatch(UpdateCardsPackAC(idPack,packName))
             dispatch(FetchPacksThunk())
+            handleResponse(dispatch, UpdateCardsPackAC(idPack,packName))
         })
+        .catch(err => handleInternetError(dispatch, err.response))
 }
 export type CardPacksActionTypes =
     ReturnType<typeof SetCardsPackAC>
