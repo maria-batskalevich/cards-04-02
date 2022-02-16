@@ -7,16 +7,16 @@ import {Packs} from "./Packs";
 type PacksListPropsType = {
     addPack: boolean
     setAddPack: (addPack: boolean) => void
+    cardsPacks?: CardPacksResponseType[]
+    user_id?: string | null | undefined
 }
 export const PacksList = (props: PacksListPropsType) => {
-
-    const cardsPacks = useSelector<AppRootStateType, Array<CardPacksResponseType>>(state => state.packs.cardPacks)
 
     const onClickHandler = () => {
         props.setAddPack(true)
     }
     return <div>
         <SuperButton onClick={onClickHandler}>Add new pack</SuperButton>
-        <Packs cardsPacks={cardsPacks}/>
+        <Packs cardsPacks={props.cardsPacks} user_id={props.user_id}/>
     </div>
 }

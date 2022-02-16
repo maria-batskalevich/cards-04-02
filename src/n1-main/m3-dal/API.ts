@@ -7,6 +7,7 @@ import {
     RecoveryParamsType,
     UpdateUserDataType, CardsPacksResponseType, CardPacksResponseType, CardsPacksType
 } from "./ApiResponseTypes";
+import {initLoginStateType} from "../../n2-features/f0-test/Profile/ProfileReducer";
 
 
 // const settings = {
@@ -39,7 +40,7 @@ export const API = {
         return instance.post<{ addedUser: AuthLoginResponseTypes }>('/auth/register', param)
     },
     profileInfo() {
-        return instance.post<any>('auth/me', {})
+        return instance.post<AuthLoginTypes, ApiResponseTypes<initLoginStateType>>('auth/me', {})
     },
     updateUser(param: UpdateUserDataType) {
         return instance.put("auth/me", param)

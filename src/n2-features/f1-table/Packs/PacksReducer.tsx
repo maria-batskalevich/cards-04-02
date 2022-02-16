@@ -1,6 +1,5 @@
-import {Dispatch} from "redux";
 import {API} from "../../../n1-main/m3-dal/API";
-import {CardPacksResponseType, CardsPacksResponseType, CardsPacksType} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {CardPacksResponseType, CardsPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {AppDispatch, AppRootStateType, ThunkType} from "../../../n1-main/m2-bll/store";
 
 const initCardPacksState = {

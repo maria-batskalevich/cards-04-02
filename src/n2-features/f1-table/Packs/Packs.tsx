@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
+    user_id: string | null | undefined
 }
 export const Packs = (props: PacksPropsType): ReactElement => {
     const dispatch = useDispatch()
@@ -36,8 +37,12 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                     <td>{c.updated}</td>
                     <td>{c.created}</td>
                     <td>{c.rating}</td>
-                    <SuperButton onClick={deletePackHandler}>Delete</SuperButton>
-                    <SuperButton onClick={updatePackHandler}>Update</SuperButton>
+                    <SuperButton>Learn</SuperButton>
+                    {props.user_id === c.user_id &&
+                    <>
+                        <SuperButton onClick={deletePackHandler}>Delete</SuperButton>
+                        <SuperButton onClick={updatePackHandler}>Update</SuperButton>
+                    </>}
                 </tr>
             })}
             </tbody>

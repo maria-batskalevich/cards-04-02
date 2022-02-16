@@ -10,7 +10,6 @@ import {LoadingProgress} from '../../../n1-main/m1-ui/common/LoagingProgress/Loa
 import s from './Login.module.css'
 
 export const Login = (): React.ReactElement => {
-    console.log('login')
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
@@ -29,7 +28,6 @@ export const Login = (): React.ReactElement => {
     const changeRememberMe = () => setRememberMe(!rememberMe)
     const login = () => {
         dispatch(LoginThunk({email, password, rememberMe}))
-        console.log({email, password, rememberMe})
     }
 
     if (isLoggedIn) {

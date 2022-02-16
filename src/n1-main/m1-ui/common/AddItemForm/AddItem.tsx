@@ -7,17 +7,18 @@ import {ThunkType} from "../../../m2-bll/store";
 
 type AddItemPropsType = {
     itemTitle: string
+    addItem: boolean
+    setAddItem: (addItem: boolean) => void
     callback: (title: string) => ThunkType
 }
 export const AddItem = (props: AddItemPropsType) => {
     const dispatch = useDispatch()
 
-    const [addItem, setAddItem] = useState<boolean>(true)
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
     const commonHandlerWithoutError = () => {
-        setAddItem(false)
+        props.setAddItem(false)
         setTitle('')
     }
     const commonHandlerWithError = () => {
@@ -47,7 +48,7 @@ export const AddItem = (props: AddItemPropsType) => {
     }
 
     return <div>
-        {addItem
+        {props.addItem
         ? <div>
                 <div>
                     <span>{props.itemTitle}</span>
@@ -62,6 +63,6 @@ export const AddItem = (props: AddItemPropsType) => {
                     <SuperButton onClick={saveHandler}>Save</SuperButton>
                 </div>
             </div>
-        : <PacksList addPack={addItem} setAddPack={setAddItem}/>}
+        : <PacksList addPack={props.addItem} setAddPack={props.setAddItem}/>}
     </div>
 }
