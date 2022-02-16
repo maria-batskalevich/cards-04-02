@@ -1,27 +1,57 @@
-export type initLoginStateType = {
-    someProperty: string;
+import {
+    NewPasswordParamsType,
+    RecoveryParamsType
+} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {Dispatch} from "redux";
+import {SetEntityStatus, SetError, SetStatusApp} from "../Login/LoginReducer";
+import {API} from "../../../n1-main/m3-dal/API";
+import {RecoveryPassAction} from "../RecoveryPass/RecoveryPasswordReducer";
+
+export type initPWCStateType = {
+    passwordChanged: boolean;
 };
 
-const initLoginState = {
-    someProperty: '',
+const initPWCState = {
+    passwordChanged: false
 };
 
 export const NewPasswordReducer = (
-    state: initLoginStateType = initLoginState,
+    state: initPWCStateType = initPWCState,
     action: NewPasswordActionTypes,
-): initLoginStateType => {
+): initPWCStateType => {
     switch (action.type) {
         case 'NEW_PASSWORD_CASE':
             return {
                 ...state,
-                ...action.payload,
+                passwordChanged: action.payload.passwordChanged,
             };
         default:
             return state;
     }
 };
 
-export const NewPasswordAction = (param: string) =>
-    ({ type: 'NEW_PASSWORD_CASE', payload: { param } } as const);
+export const NewPasswordAction = (passwordChanged: boolean) =>
+    ({type: 'NEW_PASSWORD_CASE', payload: {passwordChanged}} as const);
 
 export type NewPasswordActionTypes = ReturnType<typeof NewPasswordAction>;
+export const NewPasswordThunk = (param: NewPasswordParamsType) => (dispatch: Dispatch) => {
+
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
+    API.newPassword(param)
+        .then(res => {
+            dispatch(NewPasswordAction(true))
+            dispatch(SetStatusApp('succeeded'))
+            dispatch(SetEntityStatus('succeeded'))
+            dispatch(NewPasswordAction(true))
+        })
+        .catch(err => {
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            dispatch(SetError(error))
+            dispatch(SetEntityStatus('succeeded'))
+            dispatch(SetStatusApp('succeeded'))
+        })
+
+}
