@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {LoginThunk} from "./LoginReducer";
+import {LoginThunk, StatusType} from "./LoginReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {Navigate} from 'react-router-dom';
 import SuperInputText from "../../../n1-main/m1-ui/common/c1-SuperInputText/SuperInputText";
@@ -8,13 +8,15 @@ import SuperCheckbox from "../../../n1-main/m1-ui/common/c3-SuperCheckbox/SuperC
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {LoadingProgress} from '../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress';
 import s from './Login.module.css'
-import {initAppStateType, StatusType} from "../../../n1-main/m2-bll/app-reducer";
 
 export const Login = (): React.ReactElement => {
+    console.log('login')
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const {error, statusApp, entityStatus} = useSelector<AppRootStateType, initAppStateType>(state => state.app)
+    const error = useSelector<AppRootStateType, string | undefined>(state => state.login.error)
+    const statusApp = useSelector<AppRootStateType, StatusType>(state => state.login.statusApp)
+    const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.login.entityStatus)
 
     //state
     const [email, setEmail] = useState<string>('nya-admin@nya.nya')
@@ -27,6 +29,7 @@ export const Login = (): React.ReactElement => {
     const changeRememberMe = () => setRememberMe(!rememberMe)
     const login = () => {
         dispatch(LoginThunk({email, password, rememberMe}))
+        console.log({email, password, rememberMe})
     }
 
     if (isLoggedIn) {

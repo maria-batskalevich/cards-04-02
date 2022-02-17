@@ -7,7 +7,6 @@ export type initLoginStateType = {
     isLoading: boolean
     name: string
     email: string
-    _id: string | null | undefined
 };
 
 const initLoginState = {
@@ -15,7 +14,6 @@ const initLoginState = {
     name: '',
     email: '',
     isLoading: true,
-    _id: null
 };
 
 export const ProfileReducer = (state: initLoginStateType = initLoginState, action: ProfileActionTypes,): initLoginStateType => {
@@ -28,8 +26,6 @@ export const ProfileReducer = (state: initLoginStateType = initLoginState, actio
             return {...state, avatar: action.avatar};
         case 'SET-LOADING':
             return {...state, isLoading: action.isLoading};
-        case 'SET-ID':
-            return {...state, _id: action._id}
         default:
             return state;
     }
@@ -46,15 +42,12 @@ export const SetLoadingAction = (isLoading: boolean) =>
 
 export const SetAvatarAction = (avatar: string) =>
     ({type: 'SET-AVATAR', avatar} as const);
-export const SetUserId = (_id: string | null | undefined) =>
-    ({type: 'SET-ID', _id} as const);
 
 export type ProfileActionTypes =
     | ReturnType<typeof SetNameAction>
     | ReturnType<typeof SetEmailAction>
     | ReturnType<typeof SetLoadingAction>
     | ReturnType<typeof SetAvatarAction>
-    | ReturnType<typeof SetUserId>
 
 export const SetUserThunk = () => (dispatch: Dispatch) => {
     API.profileInfo()
@@ -62,7 +55,6 @@ export const SetUserThunk = () => (dispatch: Dispatch) => {
             dispatch(SetNameAction(res.data.name))
             dispatch(SetEmailAction(res.data.email))
             dispatch(SetAvatarAction(res.data.avatar))
-            dispatch(SetUserId(res.data._id))
             dispatch(SetLoadingAction(false))
         })
         .catch(err => {
