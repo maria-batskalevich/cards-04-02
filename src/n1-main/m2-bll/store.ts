@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import thunk from 'redux-thunk';
+import thunk, {ThunkAction} from 'redux-thunk';
 import {AppReducer} from './app-reducer';
 import {LoginReducer} from "../../n2-features/f0-test/Login/LoginReducer";
 import {NewPasswordReducer} from "../../n2-features/f0-test/New password/NewPasswordReducer";
@@ -24,6 +24,8 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type AppRootStateType = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch
+export type ThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, any>
 
 // @ts-ignore
 window.store = store;

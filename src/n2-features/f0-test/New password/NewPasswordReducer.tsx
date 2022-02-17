@@ -1,11 +1,7 @@
-import {
-    NewPasswordParamsType,
-    RecoveryParamsType
-} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {NewPasswordParamsType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Dispatch} from "redux";
-import {SetEntityStatus, SetError, SetStatusApp} from "../Login/LoginReducer";
 import {API} from "../../../n1-main/m3-dal/API";
-import {RecoveryPassAction} from "../RecoveryPass/RecoveryPasswordReducer";
+import {SetEntityStatus, SetError, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
 
 export type initPWCStateType = {
     passwordChanged: boolean;

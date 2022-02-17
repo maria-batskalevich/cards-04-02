@@ -42,3 +42,36 @@ export type NewPasswordParamsType = {
     password:string
     resetPasswordToken:any
 }
+export type CardPacksResponseType = {
+    _id: string;
+    user_id: string;
+    name: string;
+    path: string;
+    cardsCount: number;
+    grade: number;
+    shots: number;
+    rating: number;
+    type: string;
+    created: string;
+    updated: string;
+    __v: number;
+}
+export type CardsPacksResponseType = {
+    cardPacks: Array<CardPacksResponseType>;
+    cardPacksTotalCount: number;
+    maxCardsCount: number;
+    minCardsCount: number;
+    page: number;
+    pageCount: number;
+};
+export type CardsPacksType = {
+    _id: string;
+    name: string
+    path: string
+    grade: number
+    shots: number
+    rating: number
+    deckCover: string
+    private: boolean
+    type: string
+}

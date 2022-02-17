@@ -8,6 +8,7 @@ import {Registration} from '../../../n2-features/f0-test/Registration/Registrati
 import {Route, Routes} from 'react-router-dom';
 import {Packs} from "../../../n2-features/f1-table/Packs/Packs";
 import {Cards} from "../../../n2-features/f1-table/Cards/Cards";
+import {PacksListContainer} from "../../../n2-features/f1-table/Packs/PacksListContainer";
 
 export const NOT_FOUND_ROUTE = '*';
 export const LOGIN_ROUTE = 'login';
@@ -46,7 +47,7 @@ export const publicRoutes = [
     },
     {
         path: PACKS_ROUTE,
-        component: <Packs/>,
+        component: <PacksListContainer/>,
     },
     {
         path: CARDS_ROUTE,

@@ -3,10 +3,7 @@ import {
 } from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Dispatch} from "redux";
 import {API} from "../../../n1-main/m3-dal/API";
-import {
-    SetEntityStatus, SetError,
-    SetStatusApp
-} from "../Login/LoginReducer";
+import {SetEntityStatus, SetError, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
 
 export type initRecoveryStateType = {
     recoveryLinkSent: boolean;

@@ -5,25 +5,23 @@ import SuperInputText
     from "../../../n1-main/m1-ui/common/c1-SuperInputText/SuperInputText";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {SetError, StatusType} from "../Login/LoginReducer";
 import {RecoverPassThunk} from "./RecoveryPasswordReducer";
 import {Navigate} from "react-router-dom";
+import {initAppStateType, SetError} from "../../../n1-main/m2-bll/app-reducer";
 
 
 export const RecoveryPassword = (): React.ReactElement => {
     const dispatch = useDispatch()
 
     const recoveryLinkSent = useSelector<AppRootStateType, boolean>(state => state.recoveryPassword.recoveryLinkSent)
-    const error = useSelector<AppRootStateType, string | undefined>(state => state.login.error)
-    // const [error,setError] = useState()
+    const {error, entityStatus, statusApp} = useSelector<AppRootStateType, initAppStateType>(state => state.app)
     const [email, setEmail] = useState<string>('nya-admin@nya.nya')
     const from = "test-front-admin <ai73a@yandex.by>"
     const message = "<div style=\"background-color: lime; padding: 15px\">password recovery link:" +
         // "<a href='http://localhost:3000/#/set-new-password/$token$'>link</a>" +
         "<a href='https://maria-batskalevich.github.io/cards-04-02/#/newPass/$token$'>link</a>" +
         "</div>"
-    const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.login.entityStatus)
-    const statusApp = useSelector<AppRootStateType, StatusType>(state => state.login.statusApp)
+    //const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.login.entityStatus)
     const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value);
         dispatch(SetError(''))
