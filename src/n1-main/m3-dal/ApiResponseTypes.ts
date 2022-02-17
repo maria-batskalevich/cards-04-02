@@ -38,7 +38,3 @@ export type RecoveryParamsType = {
     from: string
     message: string
 }
-export type NewPasswordParamsType = {
-    password:string
-    resetPasswordToken:any
-}

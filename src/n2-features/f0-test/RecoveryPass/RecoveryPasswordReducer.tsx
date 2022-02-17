@@ -25,8 +25,7 @@ export const RecoveryPasswordReducer = (
     switch (action.type) {
         case 'RECOVERY_PASSWORD_CASE':
             return {
-                ...state,
-                recoveryLinkSent: action.payload.recoveryLinkSent
+                ...state, recoveryLinkSent: action.payload.recoveryLinkSent
             };
         default:
             return state;
@@ -40,7 +39,9 @@ export type RecoveryPassActionTypes = ReturnType<typeof RecoveryPassAction>;
 export const RecoverPassThunk = (param: RecoveryParamsType) => (dispatch: Dispatch) => {
     dispatch(SetStatusApp('loading'))
     dispatch(SetEntityStatus('loading'))
-    API.recoveryPass(param)
+
+    API.recoveryPasswordAPI.recoveryPass(param)
+        //.fakeRequest(param)
         .then(res => {
             dispatch(RecoveryPassAction(true))
             dispatch(SetStatusApp('succeeded'))
@@ -52,8 +53,8 @@ export const RecoverPassThunk = (param: RecoveryParamsType) => (dispatch: Dispat
                 ? err.response.data.error
                 : (err.message + ', more details in the console')
             dispatch(SetError(error))
+            console.log('Error: ', error)
             dispatch(SetEntityStatus('succeeded'))
-            dispatch(SetStatusApp('succeeded'))
         })
 
 }
