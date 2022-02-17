@@ -16,7 +16,7 @@ export const PacksList = (props: PacksListPropsType) => {
         props.setAddPack(true)
     }
     return <div>
-        <SuperButton onClick={onClickHandler}>Add new pack</SuperButton>
         <Packs cardsPacks={props.cardsPacks} user_id={props.user_id}/>
+        <SuperButton onClick={onClickHandler}>Add new pack</SuperButton>
     </div>
 }

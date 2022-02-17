@@ -1,0 +1,13 @@
+body {
+    background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
+    width: 80%;
+    margin: 0 auto;
+}
+.container {
+    width: 400px;
+    height: 600px;
+    background: #F9F9FE;
+    border-radius: 8px;
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+}
