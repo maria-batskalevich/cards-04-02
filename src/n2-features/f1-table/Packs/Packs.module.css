@@ -1,0 +1,16 @@
+.packsContainer {
+    display: flex;
+    justify-content: center;
+}
+.packsBar {
+    width: 350px;
+    height: 636px;
+    background: #ECECF9;
+    border-radius: 8px;
+}
+.packs {
+    width: 1008px;
+    height: 636px;
+    background: #FEFEFF;
+    border-radius: 8px;
+}

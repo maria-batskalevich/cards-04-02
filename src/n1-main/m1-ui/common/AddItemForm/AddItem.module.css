@@ -1,0 +1,8 @@
+.addItemContainer {
+    width: 500px;
+    height: 300px;
+    border: 2px solid #F9F9FE;
+    margin-top: 40px;
+    padding-top: 50px;
+    filter: drop-shadow(0px 0px 40px #343D40);
+}

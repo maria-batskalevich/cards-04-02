@@ -1,10 +1,12 @@
-import {ReactElement} from "react";
+import React, {ReactElement, useState} from "react";
 import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {DeleteCardsPackThunk, UpdateCardsPackThunk} from "./PacksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
+import {initAppStateType, StatusType} from "../../../n1-main/m2-bll/app-reducer";
+import {EditableSpan} from "../../../n1-main/m1-ui/common/EditableSpan/EditableSpan";
+import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
@@ -13,10 +15,10 @@ type PacksPropsType = {
 export const Packs = (props: PacksPropsType): ReactElement => {
 
     const dispatch = useDispatch()
-
-    const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.app.entityStatus)
+    const {error, statusApp, entityStatus} = useSelector<AppRootStateType, initAppStateType>(state => state.app)
 
     return <div>
+        {statusApp === 'loading' && <LoadingProgress/>}
         <table>
             <thead>
             <tr>
@@ -27,18 +29,20 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                 <th>Rating</th>
             </tr>
             </thead>
+            {error && <div>{error}</div>}
             <tbody>
             {props.cardsPacks && props.cardsPacks[0] && props.cardsPacks.map((c) => {
 
                 const deletePackHandler = () => {
                     dispatch(DeleteCardsPackThunk(c._id))
                 }
-                const updatePackHandler = () => {
-                    dispatch(UpdateCardsPackThunk(c._id, 'new'))
+                const updatePackName = (newPackName: string) => {
+                    dispatch(UpdateCardsPackThunk(c._id, newPackName))
                 }
+                const updatePackHandler =() => {alert('click on the packName')}
 
                 return <tr key={c._id}>
-                    <td>{c.name}</td>
+                    <td><EditableSpan packName={c.name}disabled={entityStatus === 'loading'} onChange={updatePackName}/></td>
                     <td>{c.cardsCount}</td>
                     <td>{c.updated}</td>
                     <td>{c.created}</td>

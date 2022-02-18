@@ -4,6 +4,9 @@ import {ChangeEvent, KeyboardEvent, useState} from "react";
 import {PacksList} from "../../../../n2-features/f1-table/Packs/PacksList";
 import {useDispatch} from "react-redux";
 import {ThunkType} from "../../../m2-bll/store";
+import s from './AddItem.module.css'
+import sCommon from '../../common/Container.module.css'
+
 
 type AddItemPropsType = {
     itemTitle: string
@@ -47,7 +50,7 @@ export const AddItem = (props: AddItemPropsType) => {
         }
     }
 
-    return <div>
+    return <div className={`${sCommon.container} ${s.addItemContainer} `}>
         {props.addItem
         ? <div>
                 <div>
