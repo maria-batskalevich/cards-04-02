@@ -7,6 +7,7 @@ import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {initAppStateType, StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {EditableSpan} from "../../../n1-main/m1-ui/common/EditableSpan/EditableSpan";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
+import {ModalContainer} from "../../../n3-modals/ModalContainer";
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
@@ -50,7 +51,10 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                     <SuperButton disabled={entityStatus === 'loading'}>Learn</SuperButton>
                     {props.user_id === c.user_id &&
                     <>
-                        <SuperButton onClick={deletePackHandler} disabled={entityStatus === 'loading'}>Delete</SuperButton>
+                        <ModalContainer title={'Delete'}
+                                        messange={'Do you really want to remove Pack Name - Name Pack?\n' +
+                                        '            All cards will be excluded from this course.'}
+                                        callback={deletePackHandler}/>
                         <SuperButton onClick={updatePackHandler} disabled={entityStatus === 'loading'}>Update</SuperButton>
                     </>}
                 </tr>
