@@ -7,7 +7,8 @@ import {ModalInput} from "./ModalInput";
 
 type ModalInputContainerPropsType = {
     title: string
-    message: string
+    messageName: string
+    messageAnswer?: string
     callback: (newPackName: string) => void
 }
 export const ModalInputContainer = (props: ModalInputContainerPropsType) => {
@@ -19,7 +20,7 @@ export const ModalInputContainer = (props: ModalInputContainerPropsType) => {
     const closeModalInputHandler = () => setShow(false)
     return <>
         <SuperButton onClick={showModalInputHandler} disabled={entityStatus === 'loading'}>{props.title}</SuperButton>
-        <ModalInput title={props.title} message={props.message} callback={props.callback}
-                    show={show} showModalInput={showModalInputHandler} closeModalInput={closeModalInputHandler}/></>
+        <ModalInput title={props.title} messageName={props.messageName} messageAnswer={props.messageAnswer}
+                    callback={props.callback} show={show} closeModalInput={closeModalInputHandler}/></>
 }
 

@@ -5,23 +5,27 @@ import SuperButton from "../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 
 type ModalInputPropsType = {
     title: string
-    message: string
+    messageName: string
+    messageAnswer?: string
     callback: (newPackName: string) => void
     show: boolean
-    showModalInput: () => void
     closeModalInput: () => void
 }
 export const ModalInput: React.FC<ModalInputPropsType> = ({
                                                               title,
-                                                              message,
+                                                              messageName,
+                                                              messageAnswer,
                                                               callback,
                                                               show,
-                                                              showModalInput,
                                                               closeModalInput
                                                           }) => {
     const [value, setValue] = useState<string>('')
-    const saveSetValue = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value)
-    const updateValue = () => {
+    const [answer, setAnswer] = useState<any>(undefined)
+
+    const saveValue = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value)
+    const saveAnswer = (e: ChangeEvent<HTMLInputElement>) => setAnswer(e.currentTarget.value)
+
+    const onClickHandler = () => {
         callback(value)
         closeModalInput()
         setValue('')
@@ -34,9 +38,10 @@ export const ModalInput: React.FC<ModalInputPropsType> = ({
             width={300}
             height={200}
             show={show}>
-            {message}
-            <SuperInputText value={value} onChange={saveSetValue} autoFocus/>
-            <SuperButton onClick={updateValue}>{title}</SuperButton>
+            {messageName}
+            <SuperInputText value={value} onChange={saveValue} autoFocus/>
+            {messageAnswer !== undefined && <>{messageAnswer}<SuperInputText value={answer} onChange={saveAnswer} autoFocus/></>}
+            <SuperButton onClick={onClickHandler}>{title}</SuperButton>
             <SuperButton onClick={closeModalInput}>Close</SuperButton>
         </Modal>
     </>

@@ -55,7 +55,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                                         '            All cards will be excluded from this course.`}
                                         callback={deletePackHandler}/>
                         <ModalInputContainer title={'Update'}
-                                             message={'Update pack name'}
+                                             messageName={'Update pack name'}
                                              callback={updatePackNameHandler}/>
                     </>}
                 </tr>

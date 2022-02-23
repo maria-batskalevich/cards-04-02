@@ -44,7 +44,7 @@ export const PacksList = (): ReactElement => {
                 </div>
             </div>
             <div className={s.packs}>
-                <ModalInputContainer title={'Add new pack'} message={'Add new pack'} callback={addPackHandler}/>
+                <ModalInputContainer title={'Add new pack'} messageName={'Add new pack'} callback={addPackHandler}/>
                 <Packs cardsPacks={cardsPacks} user_id={user_id}/>
             </div>
         </div>
