@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React from "react";
+import s from '../n1-main/m1-ui/common/Container.module.css'
 
 type ModalPropsType = {
     enableBackground?: boolean;
@@ -12,11 +13,14 @@ export const Modal: React.FC<ModalPropsType> = ({
                                                     enableBackground,
                                                     backgroundOnClick,
                                                     modalOnClick,
-                                                    width,
-                                                    height,
+                                                    width=0,
+                                                    height=0,
                                                     show,
                                                     children,
                                                 }) => {
+
+        const top = `calc(50vh - ${height / 2}px)`;
+        const left = `calc(50vw - ${width / 2}px)`;
 
     if (!show) return null
     return <div>
@@ -31,15 +35,16 @@ export const Modal: React.FC<ModalPropsType> = ({
             opacity: 0.35,
             zIndex: 20,
         }} onClick={backgroundOnClick}/>}
-        <div style={{
+        <div className={s.container} style={{
             position: 'fixed',
+            top,
+            left,
             width,
             height,
             display: 'flex',
             flexFlow: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'lime',
             zIndex: 21,
         }} onClick={modalOnClick}>{children}
         </div>
