@@ -8,6 +8,7 @@ import {Navigate} from "react-router-dom";
 import s from './Packs.module.css'
 import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
 import {Packs} from "./Packs";
+import {ModalUp} from "../../../n3-modals/UpModal/ModalUp";
 
 export const PacksList = (): ReactElement => {
 
@@ -42,11 +43,12 @@ export const PacksList = (): ReactElement => {
                     <span>Number of cards</span>
                     <input type={'range'}/>
                 </div>
+                <ModalInputContainer title={'Add new pack'} messageName={'Add new pack'} callback={addPackHandler}/>
             </div>
             <div className={s.packs}>
-                <ModalInputContainer title={'Add new pack'} messageName={'Add new pack'} callback={addPackHandler}/>
                 <Packs cardsPacks={cardsPacks} user_id={user_id}/>
             </div>
+            <ModalUp/>
         </div>
     );
 };

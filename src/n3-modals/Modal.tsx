@@ -7,20 +7,22 @@ type ModalPropsType = {
     modalOnClick?: () => void;
     width?: number;
     height?: number;
+    modalStyle?: any;
     show: boolean
 }
 export const Modal: React.FC<ModalPropsType> = ({
                                                     enableBackground,
                                                     backgroundOnClick,
                                                     modalOnClick,
-                                                    width=0,
-                                                    height=0,
+                                                    width = 0,
+                                                    height = 0,
+                                                    modalStyle= {},
                                                     show,
                                                     children,
                                                 }) => {
 
-        const top = `calc(50vh - ${height / 2}px)`;
-        const left = `calc(50vw - ${width / 2}px)`;
+    const top = `calc(50vh - ${height / 2}px)`;
+    const left = `calc(50vw - ${width / 2}px)`;
 
     if (!show) return null
     return <div>
@@ -41,6 +43,8 @@ export const Modal: React.FC<ModalPropsType> = ({
             left,
             width,
             height,
+            ...modalStyle,
+
             display: 'flex',
             flexFlow: 'column',
             alignItems: 'center',
