@@ -66,6 +66,6 @@ export const AddItem = (props: AddItemPropsType) => {
                     <SuperButton onClick={saveHandler}>Save</SuperButton>
                 </div>
             </div>
-        : <PacksList addPack={props.addItem} setAddPack={props.setAddItem}/>}
+            : <div></div>}
     </div>
 }
