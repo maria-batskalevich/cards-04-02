@@ -2,25 +2,22 @@ import React, {ReactElement} from "react";
 import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {DeleteCardsPackThunk, UpdateCardsPackThunk} from "./PacksReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {initAppStateType} from "../../../n1-main/m2-bll/app-reducer";
-import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
+import {useDispatch} from "react-redux";
 import {ModalContainer} from "../../../n3-modals/ModalContainer";
 import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
+import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
+import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
     user_id: string | null | undefined
+    entityStatus: StatusType
 }
 export const Packs = (props: PacksPropsType): ReactElement => {
 
     const dispatch = useDispatch()
-    const {error, statusApp, entityStatus} = useSelector<AppRootStateType, initAppStateType>(state => state.app)
 
     return <div>
-        {statusApp === 'loading' && <LoadingProgress/>}
-        {error && <div>{error}</div>}
         <table>
             <thead>
             <tr>
@@ -47,7 +44,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                     <td>{c.updated}</td>
                     <td>{c.created}</td>
                     <td>{c.rating}</td>
-                    <td><SuperButton disabled={entityStatus === 'loading'}>Learn</SuperButton>
+                    <td><SuperButton disabled={props.entityStatus === 'loading'}>Learn</SuperButton>
                         {props.user_id === c.user_id &&
                         <>
                             <ModalContainer title={'Delete'}
@@ -62,5 +59,6 @@ export const Packs = (props: PacksPropsType): ReactElement => {
             })}
             </tbody>
         </table>
+        {props.entityStatus === 'loading' && <LoadingProgress/>}
     </div>
 }

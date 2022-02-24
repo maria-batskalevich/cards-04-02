@@ -78,7 +78,12 @@ export const FetchPacksThunk = () => (dispatch: AppDispatch, getState: () => App
             handleResponse(dispatch, SetCardsPackAC(res.data))
             dispatch(SetPageCountAC(10))
         })
-        .catch(err => handleInternetError(dispatch, err.response.message))
+        .catch(err => {
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
+        })
 }
 export const SetPrivatePacksThunk = (user_id: string | null | undefined) => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
     dispatch(SetStatusApp('loading'))
@@ -87,7 +92,12 @@ export const SetPrivatePacksThunk = (user_id: string | null | undefined) => (dis
         .then(res => {
             handleResponse(dispatch, SetPrivateCardsPackAC(user_id))
         })
-        .catch(err => handleInternetError(dispatch, err.response.message))
+        .catch(err => {
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
+        })
 }
 export const AddCardsPackThunk = (packName: string): ThunkType => (dispatch) => {
     dispatch(SetStatusApp('loading'))
@@ -97,7 +107,13 @@ export const AddCardsPackThunk = (packName: string): ThunkType => (dispatch) => 
             dispatch(FetchPacksThunk())
             handleResponse(dispatch, AddNewCardsPackAC(res.data.data))
         })
-        .catch(err => handleInternetError(dispatch, err.response.message))
+        .catch(err => {
+
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
+        })
 }
 export const DeleteCardsPackThunk = (idPack: string): ThunkType => (dispatch) => {
     dispatch(SetStatusApp('loading'))
@@ -107,7 +123,12 @@ export const DeleteCardsPackThunk = (idPack: string): ThunkType => (dispatch) =>
             dispatch(FetchPacksThunk())
             handleResponse(dispatch, DeleteCardsPackAC(idPack))
         })
-        .catch(err => handleInternetError(dispatch, err.response.message))
+        .catch(err => {
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
+        })
 }
 export const UpdateCardsPackThunk = (idPack: string, packName: string): ThunkType => (dispatch) => {
     dispatch(SetStatusApp('loading'))
@@ -117,7 +138,13 @@ export const UpdateCardsPackThunk = (idPack: string, packName: string): ThunkTyp
             dispatch(FetchPacksThunk())
             handleResponse(dispatch, UpdateCardsPackAC(idPack, packName))
         })
-        .catch(err => handleInternetError(dispatch, err.response.message))
+        .catch(err => {
+
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
+        })
 }
 export type CardPacksActionTypes =
     ReturnType<typeof SetCardsPackAC>

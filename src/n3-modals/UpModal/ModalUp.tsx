@@ -32,7 +32,7 @@ export const ModalUp: React.FC<ModalUpPropsType> = ({speed = 10}) => {
         <Modal enableBackground={false}
                width={70}
                height={50}
-               modalStyle={{top: '80%', left: '80%'}}
+               modalStyle={{top: '20%', left: '80%'}}
                modalOnClick={scroll}
                show={show}>
             Up

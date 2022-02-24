@@ -35,7 +35,10 @@ export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
             dispatch(SetEntityStatus('succeeded'))
         })
         .catch(err => {
-            handleInternetError(dispatch, err.response.message)
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
         })
 }
 

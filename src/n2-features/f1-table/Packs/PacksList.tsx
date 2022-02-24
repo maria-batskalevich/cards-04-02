@@ -1,4 +1,4 @@
-import {ReactElement, useEffect} from "react";
+import React, {ReactElement, useEffect} from "react";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {AddCardsPackThunk, FetchPacksThunk, SetPrivatePacksThunk} from "./PacksReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,6 +9,8 @@ import s from './Packs.module.css'
 import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
 import {Packs} from "./Packs";
 import {ModalUp} from "../../../n3-modals/UpModal/ModalUp";
+import {initAppStateType, StatusType} from "../../../n1-main/m2-bll/app-reducer";
+import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 
 export const PacksList = (): ReactElement => {
 
@@ -17,6 +19,7 @@ export const PacksList = (): ReactElement => {
     const cardsPacks = useSelector<AppRootStateType, CardPacksResponseType[]>(state => state.packs.cardPacks)
     const user_id = useSelector<AppRootStateType, string | null | undefined>(state => state.profile._id)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.app.entityStatus)
 
     useEffect(() => {
         if (!isLoggedIn) return
@@ -31,8 +34,8 @@ export const PacksList = (): ReactElement => {
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
-    return (
-        <div className={s.packsContainer}>
+
+    return <div className={s.packsContainer}>
             <div className={s.packsBar}>
                 <div>
                     <span>Show packs cards</span>
@@ -46,9 +49,8 @@ export const PacksList = (): ReactElement => {
                 <ModalInputContainer title={'Add new pack'} messageName={'Add new pack'} callback={addPackHandler}/>
             </div>
             <div className={s.packs}>
-                <Packs cardsPacks={cardsPacks} user_id={user_id}/>
+                <Packs cardsPacks={cardsPacks} user_id={user_id} entityStatus={entityStatus}/>
             </div>
             <ModalUp/>
         </div>
-    );
 };

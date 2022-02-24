@@ -8,13 +8,13 @@ import SuperCheckbox from "../../../n1-main/m1-ui/common/c3-SuperCheckbox/SuperC
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {LoadingProgress} from '../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress';
 import s from '../../../n1-main/m1-ui/common/Container.module.css'
-import {initAppStateType} from "../../../n1-main/m2-bll/app-reducer";
+import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 
 export const Login = (): React.ReactElement => {
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const {error, statusApp, entityStatus} = useSelector<AppRootStateType, initAppStateType>(state => state.app)
+    const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.app.entityStatus)
 
     //state
     const [email, setEmail] = useState<string>('nya-admin@nya.nya')
@@ -32,14 +32,15 @@ export const Login = (): React.ReactElement => {
     if (isLoggedIn) {
         return <Navigate to={'/profile'}/>
     }
+    if (entityStatus === 'loading' )<LoadingProgress/>
+
     return <div className={s.container}>
-        {statusApp === 'loading' && <LoadingProgress/>}
+        {entityStatus === 'loading' && <LoadingProgress/>}
         <h1>Sign In</h1>
         <div><SuperInputText type={'email'} placeholder={'Email'} value={email}
                              onChange={changeEmail} disabled={entityStatus === 'loading'}/></div>
         <div><SuperInputText type={'password'} placeholder={'Password'} value={password}
                              onChange={changePassword} disabled={entityStatus === 'loading'}/></div>
-        {error && <div>{error}</div>}
         <div><span>Remember me</span>
             <SuperCheckbox type={'checkbox'} checked={rememberMe}
                            onChange={changeRememberMe} disabled={entityStatus === 'loading'}/>
