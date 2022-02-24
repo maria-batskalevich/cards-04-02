@@ -2,16 +2,20 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {initLoginStateType, SetAvatarAction, SetNameAction, SetUserThunk, UpdateUserData} from "./ProfileReducer";
-import {Loader} from "../../../n1-main/m1-ui/common/c4-Loadrer-Spinner/loader";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
+import s from '../../../n1-main/m1-ui/common/Container.module.css'
+import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
+import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 
 export const Profile = () => {
 
-    const {name, email, isLoading, avatar} = useSelector<AppRootStateType, initLoginStateType>(state => state.profile)
+    const {name, email, avatar} = useSelector<AppRootStateType, initLoginStateType>(state => state.profile)
 
     const [editMode, setEditMode] = useState(false)
 
     const dispatch = useDispatch()
+    const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.app.entityStatus)
+
     useEffect(() => {
         dispatch(SetUserThunk())
         console.log(name, email)
@@ -29,70 +33,40 @@ export const Profile = () => {
         dispatch(SetAvatarAction(e.currentTarget.value))
     }
 
-    if (isLoading) {
-        return (
-            <div style={{
-                padding: "20px",
-                margin: "0 auto",
-                width: "50vw",
-                height: "50vh",
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: "space-between",
-                alignItems: "center",
-                border: "1px solid black",
-                borderRadius: '20px',
-            }}>
-                <h1>PROFILE COMPONENT</h1>
-                <Loader/>
-            </div>)
-    } else return (
-        <div style={{
-            padding: "20px",
-            margin: "0 auto",
-            width: "50vw",
-            height: "50vh",
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: "space-between",
-            alignItems: "center",
-            border: "1px solid black",
-            borderRadius: '20px',
-        }}>
-            <h1>PROFILE COMPONENT</h1>
+    return <div>
+        {!editMode
+            ?
+            <div className={s.container}>
+                <h1>Profile</h1>
+                <img
+                    style={{borderRadius: '50%', width: '150px', height: '150px'}}
+                    src={avatar}
+                    alt=""/>
+                <div>{name}</div>
+                <div>{email}</div>
 
-            {!editMode
-                ?
-                <>
-                    <img
-                        style={{borderRadius: '50%', width: '150px', height: '150px'}}
-                        src={avatar}
-                        alt=""/>
-                    <div>{name}</div>
-                    <div>{email}</div>
-
-                    <SuperButton onClick={() => setEditMode(true)}>Edit</SuperButton>
-                </>
-                :
-                <>
-                    <img
-                        style={{borderRadius: '50%', width: '150px', height: '150px'}}
-                        src={avatar}
-                        alt=""/>
-                    <div>Avatar: </div>
-                    <input type="text" value={avatar} onChange={updateAvatar} placeholder={'http:'}/>
-                    <span>Name :</span>
-                    <input type="text" value={name} onChange={updateName} placeholder={name}/>
-                    <span>Email :</span>
-                    <div>{email}</div>
-                    <div>
-                        <SuperButton onClick={() => setEditMode(false)}>Cansel</SuperButton>
-                        <SuperButton onClick={updateUserData}>Save</SuperButton>
-                    </div>
-
-                </>
-            }
-        </div>
-    );
+                <SuperButton onClick={() => setEditMode(true)}>Edit</SuperButton>
+            </div>
+            :
+            <div className={s.container}><h1>Profile</h1>
+                <img
+                    style={{borderRadius: '50%', width: '150px', height: '150px'}}
+                    src={avatar}
+                    alt=""/>
+                <div><span>Avatar: </span><input type="text" value={avatar} onChange={updateAvatar}
+                                                 placeholder={'http:'}/></div>
+                <div><span>Name :</span>
+                    <input type="text" value={name} onChange={updateName} placeholder={name}/></div>
+                <div><span>Email :</span>
+                    <span>{email}</span>
+                </div>
+                <div>
+                    <SuperButton onClick={() => setEditMode(false)}>Cansel</SuperButton>
+                    <SuperButton onClick={updateUserData}>Save</SuperButton>
+                </div>
+            </div>
+        }
+        {entityStatus === 'loading' && <LoadingProgress/>}
+    </div>
 };
 

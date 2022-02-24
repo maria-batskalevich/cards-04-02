@@ -3,14 +3,33 @@
     justify-content: center;
 }
 .packsBar {
-    width: 350px;
-    height: 636px;
+    width: 20%;
+    max-height: 100vh;
     background: #ECECF9;
     border-radius: 8px;
 }
 .packs {
-    width: 1008px;
-    height: 636px;
+    background: #ECECF9;
+    border-radius: 8px;
+}
+.pack {
+    max-height: 100vh;
     background: #FEFEFF;
     border-radius: 8px;
+    align-items: center;
+}
+.columnName {
+    height: 50px;
+    align-items: center;
+    background: #ECECF9;
+}
+.columnName td {
+    display: flex;
+    justify-content: space-between;
+}
+.packsButtons {
+    display: flex;
+}
+td {
+    min-width: 60px;
 }

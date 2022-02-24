@@ -9,7 +9,7 @@ import s from './Packs.module.css'
 import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
 import {Packs} from "./Packs";
 import {ModalUp} from "../../../n3-modals/UpModal/ModalUp";
-import {initAppStateType, StatusType} from "../../../n1-main/m2-bll/app-reducer";
+import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 
 export const PacksList = (): ReactElement => {
@@ -38,7 +38,7 @@ export const PacksList = (): ReactElement => {
     return <div className={s.packsContainer}>
             <div className={s.packsBar}>
                 <div>
-                    <span>Show packs cards</span>
+                    <div>Show packs cards</div>
                     <SuperButton onClick={showMyCardsPacks}>My</SuperButton>
                     <SuperButton onClick={showAllCardsPacks}>ALL</SuperButton>
                 </div>

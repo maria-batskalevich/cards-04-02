@@ -2,6 +2,7 @@ import {NewPasswordParamsType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Dispatch} from "redux";
 import {API} from "../../../n1-main/m3-dal/API";
 import {SetEntityStatus, SetError, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
+import {handleInternetError} from "../../../n1-main/m1-ui/common/utils";
 
 export type initPWCStateType = {
     passwordChanged: boolean;
@@ -45,9 +46,7 @@ export const NewPasswordThunk = (param: NewPasswordParamsType) => (dispatch: Dis
             const error = err.response
                 ? err.response.data.error
                 : (err.message + ', more details in the console')
-            dispatch(SetError(error))
-            dispatch(SetEntityStatus('succeeded'))
-            dispatch(SetStatusApp('succeeded'))
+            handleInternetError(dispatch, error)
         })
 
 }

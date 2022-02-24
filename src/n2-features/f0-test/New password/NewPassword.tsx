@@ -5,7 +5,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {Navigate, useParams} from "react-router-dom";
 import {NewPasswordThunk} from "./NewPasswordReducer";
-import {initAppStateType, SetError} from "../../../n1-main/m2-bll/app-reducer";
+import {initAppStateType} from "../../../n1-main/m2-bll/app-reducer";
+import s from '../../../n1-main/m1-ui/common/Container.module.css'
+import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 
 
 export const NewPassword = () => {
@@ -18,7 +20,6 @@ export const NewPassword = () => {
     const [password, setPassword] = useState<string>('1qazxcvBG')
     const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.currentTarget.value);
-        dispatch(SetError(''))
     }
 
     const {token} = useParams<'token'>()
@@ -33,18 +34,21 @@ export const NewPassword = () => {
     }
     return (
         <div>
-            <div>New password
+            <div className={s.container}>
+            <div>
+                <h1>New password</h1>
                 <div><SuperInputText type={'password'}
                                      placeholder={'new password'}
                                      value={password}
                                      onChange={changePassword}
                                      disabled={entityStatus === 'loading'}
-                                     error={error}
                 /></div>Change password
                 <div><SuperButton onClick={setNewPassword}
                                   disabled={entityStatus === 'loading'}>Change</SuperButton>
                 </div>
             </div>
+        </div>
+            {entityStatus === 'loading' && <LoadingProgress/>}
         </div>
     );
 };

@@ -32,22 +32,22 @@ export const Login = (): React.ReactElement => {
     if (isLoggedIn) {
         return <Navigate to={'/profile'}/>
     }
-    if (entityStatus === 'loading' )<LoadingProgress/>
-
-    return <div className={s.container}>
-        {entityStatus === 'loading' && <LoadingProgress/>}
-        <h1>Sign In</h1>
-        <div><SuperInputText type={'email'} placeholder={'Email'} value={email}
-                             onChange={changeEmail} disabled={entityStatus === 'loading'}/></div>
-        <div><SuperInputText type={'password'} placeholder={'Password'} value={password}
-                             onChange={changePassword} disabled={entityStatus === 'loading'}/></div>
-        <div><span>Remember me</span>
-            <SuperCheckbox type={'checkbox'} checked={rememberMe}
-                           onChange={changeRememberMe} disabled={entityStatus === 'loading'}/>
+    return <div>
+        <div className={s.container}>
+            <h1>Sign In</h1>
+            <div><SuperInputText type={'email'} placeholder={'Email'} value={email}
+                                 onChange={changeEmail} disabled={entityStatus === 'loading'}/></div>
+            <div><SuperInputText type={'password'} placeholder={'Password'} value={password}
+                                 onChange={changePassword} disabled={entityStatus === 'loading'}/></div>
+            <div><span>Remember me</span>
+                <SuperCheckbox type={'checkbox'} checked={rememberMe}
+                               onChange={changeRememberMe} disabled={entityStatus === 'loading'}/>
+            </div>
+            <div><a href={'RECOVERY_PASS_ROUTE#/recoveryPass'}>forgot?</a></div>
+            <div><SuperButton onClick={login} disabled={entityStatus === 'loading'}>Login</SuperButton></div>
+            <div><a href={''}>Don't have an account?</a></div>
+            <div><SuperButton>Sign Up</SuperButton></div>
         </div>
-        <div><a href={'RECOVERY_PASS_ROUTE#/recoveryPass'}>forgot?</a></div>
-        <div><SuperButton onClick={login} disabled={entityStatus === 'loading'}>Login</SuperButton></div>
-        <div><a href={''}>Don't have an account?</a></div>
-        <div><SuperButton>Sign Up</SuperButton></div>
+        {entityStatus === 'loading' && <LoadingProgress/>}
     </div>
 }

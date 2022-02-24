@@ -7,6 +7,7 @@ import {ModalContainer} from "../../../n3-modals/ModalContainer";
 import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
+import s from './Packs.module.css'
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
@@ -19,16 +20,17 @@ export const Packs = (props: PacksPropsType): ReactElement => {
 
     return <div>
         <table>
-            <thead>
+            <thead className={s.columnName}>
             <tr>
                 <th>Name</th>
                 <th>Cards count</th>
                 <th>Last updated</th>
                 <th>Created</th>
                 <th>Rating</th>
+                <th> </th>
             </tr>
             </thead>
-            <tbody>
+            <tbody className={s.pack}>
             {props.cardsPacks && props.cardsPacks[0] && props.cardsPacks.map((c) => {
 
                 const deletePackHandler = () => {
@@ -41,10 +43,11 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                 return <tr key={c._id}>
                     <td>{c.name}</td>
                     <td>{c.cardsCount}</td>
-                    <td>{c.updated}</td>
-                    <td>{c.created}</td>
+                    <td>{c.updated.slice(0,10)}</td>
+                    <td>{c.created.slice(0,10)}</td>
                     <td>{c.rating}</td>
-                    <td><SuperButton disabled={props.entityStatus === 'loading'}>Learn</SuperButton>
+                    <td className={s.packsButtons}>
+                        <SuperButton disabled={props.entityStatus === 'loading'}>Learn</SuperButton>
                         {props.user_id === c.user_id &&
                         <>
                             <ModalContainer title={'Delete'}

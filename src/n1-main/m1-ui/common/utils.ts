@@ -8,6 +8,7 @@ export const handleResponse = (dispatch: any, actionCreator: CardPacksActionType
 }
 export const handleInternetError = (dispatch: any, err: string) => { //как типизировать правилбно диспатч??
     dispatch(SetStatusApp('failed'))
+    dispatch(SetEntityStatus('failed'))
     dispatch(SetError(err))
     console.log('Error: ', err)
 }

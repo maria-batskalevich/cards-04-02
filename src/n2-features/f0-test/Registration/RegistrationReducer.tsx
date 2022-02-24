@@ -1,6 +1,8 @@
 import {API} from "../../../n1-main/m3-dal/API";
 import {RegisterParamsType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Dispatch} from "redux";
+import {handleInternetError} from "../../../n1-main/m1-ui/common/utils";
+import {SetEntityStatus, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
 
 export type initLoginStateType = {
     isRegistered: boolean;
@@ -46,20 +48,24 @@ export type RegistrationActionTypes =
 export const RegistrationThunk = (param: RegisterParamsType) => (dispatch: Dispatch) => {
     dispatch(RegisterSendAction(true))
     dispatch(SetLoadingAction(true))
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     API.registration(param)
         .then(res => {
             if (res.status === 201) {
                 dispatch(RegistrationAction(true))
                 dispatch(RegisterSendAction(false))
                 dispatch(SetLoadingAction(false))
+                dispatch(SetStatusApp('succeeded'))
+                dispatch(SetEntityStatus('succeeded'))
                 alert(res.statusText)
             }
             console.log(res)
         })
         .catch(err => {
             const error = err.response
-            dispatch(RegisterSendAction(false))
-            dispatch(SetLoadingAction(false))
-            alert(error.data.error)
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
         })
 }
