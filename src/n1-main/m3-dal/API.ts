@@ -44,8 +44,8 @@ export const API = {
         return instance.put("auth/me", param)
     },
     packsAPI: {
-        getPack: () =>
-            instance.get<CardsPacksResponseType>('cards/pack'),
+        getPack: (payload?: CardsPacksResponseType) =>
+            instance.get<CardsPacksResponseType>('cards/pack', {params: payload}),
         addPack: (packName: string) =>
             instance.post<{ newCardPacks: CardsPacksType },
                 ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack', {cardsPack: {name: packName}}),

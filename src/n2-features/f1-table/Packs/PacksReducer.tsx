@@ -33,8 +33,11 @@ export const PacksReducer = (
         case "packs/DELETE_CARDS_PACK": {
             return {...state, cardPacks: state.cardPacks.filter(p => p._id !== action.idPack)}
         }
-        case "packs/UPDATE_CARDS_PACK":{
-            return {...state, cardPacks: state.cardPacks.map(p => p._id === action.idPack ? {...p, name: action.packName} : p)}
+        case "packs/UPDATE_CARDS_PACK": {
+            return {
+                ...state,
+                cardPacks: state.cardPacks.map(p => p._id === action.idPack ? {...p, name: action.packName} : p)
+            }
         }
         default:
             return state;
@@ -61,9 +64,16 @@ export const UpdateCardsPackAC = (idPack: string, packName: string) => {
 }
 //thunk
 export const FetchPacksThunk = () => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+    const packs = getState().packs
     dispatch(SetStatusApp('loading'))
     dispatch(SetEntityStatus('loading'))
-    API.packsAPI.getPack()
+    API.packsAPI.getPack({
+        ...packs,
+        page: packs.page,
+        pageCount: packs.pageCount,
+        maxCardsCount: packs.maxCardsCount,
+        minCardsCount: packs.minCardsCount,
+    })
         .then(res => {
             handleResponse(dispatch, SetCardsPackAC(res.data))
             dispatch(SetPageCountAC(10))
@@ -105,7 +115,7 @@ export const UpdateCardsPackThunk = (idPack: string, packName: string): ThunkTyp
     API.packsAPI.updatePack(idPack, packName)
         .then(res => {
             dispatch(FetchPacksThunk())
-            handleResponse(dispatch, UpdateCardsPackAC(idPack,packName))
+            handleResponse(dispatch, UpdateCardsPackAC(idPack, packName))
         })
         .catch(err => handleInternetError(dispatch, err.response.message))
 }
