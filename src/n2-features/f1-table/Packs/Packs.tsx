@@ -11,8 +11,9 @@ import s from './Packs.module.css'
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
-    user_id: string | null | undefined
-    entityStatus: StatusType
+    user_id?: string | null | undefined
+    entityStatus?: StatusType
+    setShow: (show: boolean) => void
 }
 export const Packs = (props: PacksPropsType): ReactElement => {
 
@@ -39,6 +40,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                 const updatePackNameHandler = (newPackName: string) => {
                     dispatch(UpdateCardsPackThunk(c._id, newPackName))
                 }
+                const showCardsComponent = () => props.setShow(true)
 
                 return <tr key={c._id}>
                     <td>{c.name}</td>
@@ -47,16 +49,16 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                     <td>{c.created.slice(0,10)}</td>
                     <td>{c.rating}</td>
                     <td className={s.packsButtons}>
-                        <SuperButton disabled={props.entityStatus === 'loading'}>Learn</SuperButton>
+                        <SuperButton disabled={props.entityStatus === 'loading'} onClick={showCardsComponent}>Learn</SuperButton>
                         {props.user_id === c.user_id &&
                         <>
+                            <ModalInputContainer title={'Update'}
+                                                 messageName={'Update pack name'}
+                                                 callback={updatePackNameHandler}/>
                             <ModalContainer title={'Delete'}
                                             message={`Do you really want to remove Pack Name - ${c.name}?\n +
                                         '            All cards will be excluded from this course.`}
                                             callback={deletePackHandler}/>
-                            <ModalInputContainer title={'Update'}
-                                                 messageName={'Update pack name'}
-                                                 callback={updatePackNameHandler}/>
                         </>}</td>
                 </tr>
             })}
