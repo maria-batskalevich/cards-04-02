@@ -1,49 +1,60 @@
+import {AppDispatch, AppRootStateType} from "../../../n1-main/m2-bll/store";
+import {API} from "../../../n1-main/m3-dal/API";
+import {handleInternetError, handleResponse} from "../../../n1-main/m1-ui/common/utils";
+import {CardsResponseType, GetCardsQueryParams} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {SetEntityStatus, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
 
-export type CardsType = {
-    cards: Array <{
-        answer: string
-        question: string
-        cardsPack_id: string
-        grade: number
-        rating: number
-        shots: number
-        type: string
-        user_id: string
-        created: string
-        updated: string
-        __v: number
-        _id: string
-    }>
-    cardsTotalCount: number
-    maxGrade: number
-    minGrade: number
-    page: number
-    pageCount: number
-    packUserId: string
+export type CardsInitialState = CardsResponseType & {
+    currentCardsPackID: string
+    currentGrade: number[]
 }
-
-const initialState: CardsType = {
+const initialState: CardsInitialState = {
     cards: [],
     cardsTotalCount: 0,
     maxGrade: 0,
     minGrade: 0,
     page: 1,
     pageCount: 10,
-    packUserId: ''
+    packUserId: '',
+    currentCardsPackID: '',
+    currentGrade: [] as number[]
 }
 
-
-export const CardsReducer = (state = initialState, action: CardsActionTypes): CardsType => {
+export const CardsReducer = (state = initialState, action: CardsActionTypes): CardsInitialState => {
     switch (action.type) {
-        case 'SET-CARDS': {  // добавила для подготовки ко 2му занятию, название и т.д. можно менять
-            return { ...state, ...action.payload, cardPacks: action.payload.cardPacks };
-        }
+        case 'cards/SET-CARDS':
+            return {...state, ...action.payload};
+        case "cards/SET-CURRENT-CARDS-PACK-ID":
+            return {...state, currentCardsPackID: action.payload.id}
         default:
             return state;
     }
 };
 
-export const setCardsAC = (payload: any) =>
-    ({ type: 'SET-CARDS', payload } as const);
+//actions
+export const SetCardsAC = (payload: CardsResponseType) =>
+    ({type: 'cards/SET-CARDS', payload} as const);
+export const SetCurrentCardsPackIdAC = (payload: { id: string }) =>
+    ({type: 'cards/SET-CURRENT-CARDS-PACK-ID', payload} as const);
 
-export type CardsActionTypes = ReturnType<typeof setCardsAC>;
+//thunks
+export const FetchCardsThunk = (payload?: GetCardsQueryParams) => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
+
+    const cards = getState().cards
+
+    API.cardsAPI.getCards({
+        cardsPack_id: cards.currentCardsPackID || payload && payload.cardsPack_id
+    })
+        .then(res => {
+            handleResponse(dispatch, SetCardsAC(res.data))
+        })
+        .catch(err => {
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
+        })
+}
+export type CardsActionTypes = ReturnType<typeof SetCardsAC> | ReturnType<typeof SetCurrentCardsPackIdAC>;

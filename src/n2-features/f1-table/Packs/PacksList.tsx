@@ -36,8 +36,9 @@ export const PacksList = (): ReactElement => {
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
-    if(show)  {
-        return <CardsList cardsPacks={cardsPacks} setShow={setShow} show={show}/>
+
+    if (show) {
+        return <CardsList setShow={setShow} show={show} cardsPacks={cardsPacks}/>
     }
 
     return <div className={s.packsContainer}>

@@ -1,7 +1,9 @@
 import {SetEntityStatus, SetError, SetStatusApp} from "../../m2-bll/app-reducer";
 import {CardPacksActionTypes} from "../../../n2-features/f1-table/Packs/PacksReducer";
+import {CardType} from "../../m3-dal/ApiResponseTypes";
+import {CardsActionTypes} from "../../../n2-features/f1-table/Cards/CardsReducer";
 
-export const handleResponse = (dispatch: any, actionCreator: CardPacksActionTypes) => {
+export const handleResponse = (dispatch: any, actionCreator: CardPacksActionTypes | CardsActionTypes) => {
     dispatch(actionCreator)
     dispatch(SetStatusApp('succeeded'))
     dispatch(SetEntityStatus('succeeded'))

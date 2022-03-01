@@ -6,7 +6,13 @@ import {
     AuthLoginTypes,
     RegisterParamsType,
     RecoveryParamsType,
-    UpdateUserDataType, NewPasswordParamsType, CardsPacksResponseType, CardsPacksType, CardPacksResponseType
+    UpdateUserDataType,
+    NewPasswordParamsType,
+    CardsPacksResponseType,
+    CardsPacksType,
+    CardPacksResponseType,
+    CardsResponseType,
+    GetCardsQueryParams
 } from "./ApiResponseTypes";
 
 
@@ -54,6 +60,10 @@ export const API = {
         updatePack:(idPack: string, packName: string) =>
             instance.put<{ updateCardPacks: CardsPacksType },
                 ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack',{cardsPack: {_id: idPack, name: packName}})
+    },
+    cardsAPI: {
+        getCards: (payload?: GetCardsQueryParams) =>
+            instance.get<CardsResponseType>('cards/card', {params: payload})
     }
 };
 

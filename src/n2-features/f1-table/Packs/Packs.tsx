@@ -8,12 +8,13 @@ import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputConta
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 import s from './Packs.module.css'
+import {SetCurrentCardsPackIdAC} from "../Cards/CardsReducer";
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
     user_id?: string | null | undefined
     entityStatus?: StatusType
-    setShow: (show: boolean) => void
+    setShow?: (show: boolean) => void
 }
 export const Packs = (props: PacksPropsType): ReactElement => {
 
@@ -28,7 +29,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                 <th>Last updated</th>
                 <th>Created</th>
                 <th>Rating</th>
-                <th> </th>
+                <th></th>
             </tr>
             </thead>
             <tbody className={s.pack}>
@@ -40,16 +41,20 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                 const updatePackNameHandler = (newPackName: string) => {
                     dispatch(UpdateCardsPackThunk(c._id, newPackName))
                 }
-                const showCardsComponent = () => props.setShow(true)
+                const showCardsComponent = () => {
+                    props.setShow && props.setShow(true)
+                    dispatch(SetCurrentCardsPackIdAC({id: c._id}))
+                }
 
                 return <tr key={c._id}>
                     <td>{c.name}</td>
                     <td>{c.cardsCount}</td>
-                    <td>{c.updated.slice(0,10)}</td>
-                    <td>{c.created.slice(0,10)}</td>
+                    <td>{c.updated.slice(0, 10)}</td>
+                    <td>{c.created.slice(0, 10)}</td>
                     <td>{c.rating}</td>
                     <td className={s.packsButtons}>
-                        <SuperButton disabled={props.entityStatus === 'loading'} onClick={showCardsComponent}>Learn</SuperButton>
+                        <SuperButton disabled={props.entityStatus === 'loading'}
+                                     onClick={showCardsComponent}>Learn</SuperButton>
                         {props.user_id === c.user_id &&
                         <>
                             <ModalInputContainer title={'Update'}
