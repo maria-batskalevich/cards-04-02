@@ -6,7 +6,7 @@ import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Navigate} from "react-router-dom";
 import s from './Packs.module.css'
-import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
+import {ModalInputContainer} from "../../../n3-modals/InputModal/SimpleInput/ModalInputContainer";
 import {Packs} from "./Packs";
 import {ModalUp} from "../../../n3-modals/UpModal/ModalUp";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";

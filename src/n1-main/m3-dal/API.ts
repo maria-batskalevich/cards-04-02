@@ -12,7 +12,7 @@ import {
     CardsPacksType,
     CardPacksResponseType,
     CardsResponseType,
-    GetCardsQueryParams
+    GetCardsQueryParams, PostCardsQueryParams, CardType
 } from "./ApiResponseTypes";
 
 
@@ -63,7 +63,11 @@ export const API = {
     },
     cardsAPI: {
         getCards: (payload?: GetCardsQueryParams) =>
-            instance.get<CardsResponseType>('cards/card', {params: payload})
+            instance.get<CardsResponseType>('cards/card', {params: payload}),
+        addCard: (payload: PostCardsQueryParams)=>
+            instance.post<CardType, ApiResponseTypes<CardType>>('cards/card', payload),
+        deleteCard: (idCard: string) =>
+            instance.delete<CardsResponseType>('cards/card', {params: {id: idCard}} )
     }
 };
 

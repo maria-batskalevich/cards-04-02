@@ -4,7 +4,7 @@ import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButto
 import {DeleteCardsPackThunk, UpdateCardsPackThunk} from "./PacksReducer";
 import {useDispatch} from "react-redux";
 import {ModalContainer} from "../../../n3-modals/ModalContainer";
-import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
+import {ModalInputContainer} from "../../../n3-modals/InputModal/SimpleInput/ModalInputContainer";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 import s from './Packs.module.css'

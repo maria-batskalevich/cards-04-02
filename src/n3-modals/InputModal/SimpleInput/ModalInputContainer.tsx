@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import SuperButton from "../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
+import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {StatusType} from "../../n1-main/m2-bll/app-reducer";
+import {AppRootStateType} from "../../../n1-main/m2-bll/store";
+import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {ModalInput} from "./ModalInput";
 
 type ModalInputContainerPropsType = {

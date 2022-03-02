@@ -7,9 +7,9 @@ import imgVector from '../../../assets/Vector 1.png'
 import {Packs} from "../Packs/Packs";
 import {Cards} from "./Cards";
 import s from "../Packs/Packs.module.css";
-import {ModalInputContainer} from "../../../n3-modals/InputModal/ModalInputContainer";
-import {FetchCardsThunk} from "./CardsReducer";
-import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {AddCardThunk, FetchCardsThunk} from "./CardsReducer";
+import {CardPacksResponseType, PostCardsQueryParams} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {ModalDoubleInputContainer} from "../../../n3-modals/InputModal/DoubleInput/ModalDoubleInputContainer";
 
 type CardsListPropsType = {
     cardsPacks?: CardPacksResponseType[]
@@ -22,13 +22,12 @@ export const CardsList = (props: CardsListPropsType) => {
 
     const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.app.entityStatus)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const currentCardsPackID = useSelector<AppRootStateType>(state => state.cards.currentCardsPackID)
+    const currentCardsPackID = useSelector<AppRootStateType, string>(state => state.cards.currentCardsPackID)
 
     const currentCardsPack = props.cardsPacks && props.cardsPacks.find(c => c._id === currentCardsPackID)
 
     const showPacks = () => props.setShow(false)
-    const addCardHandler = () => {
-    }
+    const addCardHandler = (payload: PostCardsQueryParams) => dispatch(AddCardThunk({...payload}))
 
     useEffect(() => {
         if (!isLoggedIn) return
@@ -44,7 +43,11 @@ export const CardsList = (props: CardsListPropsType) => {
                 <SuperButton onClick={showPacks}>
                     <img src={imgVector}/>  Back
                 </SuperButton>
-                <ModalInputContainer title={'Add new card'} messageName={'Add new card'} callback={addCardHandler}/>
+                <ModalDoubleInputContainer title={'Add new card'} messageName={'Add new card'}
+                                     messageAnswer={''}
+                                     callback={addCardHandler}
+                                     currentCardsPackID={currentCardsPackID}
+                />
             </div>
             <div className={s.packs}>
                 <h1>{currentCardsPack && currentCardsPack.name}</h1>

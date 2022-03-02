@@ -108,3 +108,19 @@ export type GetCardsQueryParams = {
     page?: number
     pageCount?: number
 }
+export type PostCardQueryParams = {
+    cardsPack_id: string | undefined
+    question?: string
+    answer?: string
+    grade?: number
+    shots?: number
+   /* rating?: number
+    answerImg?: string
+    questionImg?: string
+    questionVideo?: string
+    answerVideo?: string
+    type?: string*/
+}
+export type PostCardsQueryParams = {
+    card: PostCardQueryParams
+}

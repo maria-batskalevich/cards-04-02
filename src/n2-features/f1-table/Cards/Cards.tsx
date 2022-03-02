@@ -3,14 +3,18 @@ import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButto
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 import React from "react";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {CardType} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {DeleteCardThunk} from "./CardsReducer";
 
 type CardsPropsType = {
     entityStatus: StatusType
 }
 export const Cards = (props: CardsPropsType) => {
+
+    const dispatch = useDispatch()
+
     const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards)
 
     return <div>
@@ -25,16 +29,20 @@ export const Cards = (props: CardsPropsType) => {
             </tr>
             </thead>
             <tbody className={s.pack}>
-            {cards.map(c => <tr key={c._id}>
-                <td>{c.question}</td>
-                <td>{c.answer}</td>
-                <td>{c.updated}</td>
-                <td>{c.grade}</td>
-                <td>
-                    <SuperButton>Update</SuperButton>
-                    <SuperButton>Delete</SuperButton>
-                </td>
-            </tr>)}
+            { cards.map(c => {
+                const deleteCardHandler = () => dispatch(DeleteCardThunk(c._id))
+
+                return  <tr key={c._id}>
+                    <td>{c.question}</td>
+                    <td>{c.answer}</td>
+                    <td>{c.updated}</td>
+                    <td>{c.grade}</td>
+                    <td>
+                        <SuperButton>Update</SuperButton>
+                        <SuperButton onClick={deleteCardHandler}>Delete</SuperButton>
+                    </td>
+                </tr>
+            })}
             </tbody>
         </table>
         {props.entityStatus === 'loading' && <LoadingProgress/>}
