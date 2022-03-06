@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {Navigate} from "react-router-dom";
-import s from './Packs.module.css'
+import s from '../Table.module.css'
 import {ModalInputContainer} from "../../../n3-modals/InputModal/SimpleInput/ModalInputContainer";
 import {Packs} from "./Packs";
 import {ModalUp} from "../../../n3-modals/UpModal/ModalUp";
@@ -41,8 +41,8 @@ export const PacksList = (): ReactElement => {
         return <CardsList setShow={setShow} show={show} cardsPacks={cardsPacks}/>
     }
 
-    return <div className={s.packsContainer}>
-            <div className={s.packsBar}>
+    return <div className={s.tableContainer}>
+            <div className={s.tableBar}>
                 <div>
                     <div>Show packs cards</div>
                     <SuperButton onClick={showMyCardsPacks}>My</SuperButton>
@@ -54,7 +54,7 @@ export const PacksList = (): ReactElement => {
                 </div>
                 <ModalInputContainer title={'Add new pack'} messageName={'Add new pack'} callback={addPackHandler}/>
             </div>
-            <div className={s.packs}>
+            <div className={s.items}>
                 <Packs cardsPacks={cardsPacks} user_id={user_id} entityStatus={entityStatus} setShow={setShow}/>
             </div>
             <ModalUp/>

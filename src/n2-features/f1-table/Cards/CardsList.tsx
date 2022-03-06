@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
@@ -6,11 +6,12 @@ import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButto
 import imgVector from '../../../assets/Vector 1.png'
 import {Packs} from "../Packs/Packs";
 import {Cards} from "./Cards";
-import s from "../Packs/Packs.module.css";
+import s from "../Table.module.css";
 import {AddCardThunk, FetchCardsThunk} from "./CardsReducer";
 import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {ModalDoubleInputContainer} from "../../../n3-modals/InputModal/DoubleInput/ModalDoubleInputContainer";
 import {FetchPacksThunk} from "../Packs/PacksReducer";
+import {Education} from "../Education/Education";
 
 type CardsListPropsType = {
     cardsPacks?: CardPacksResponseType[]
@@ -18,6 +19,8 @@ type CardsListPropsType = {
     show: boolean
 }
 export const CardsList = (props: CardsListPropsType) => {
+
+    const [showEducation, setShowEducation] = useState<boolean>(false)
 
     const dispatch = useDispatch()
 
@@ -32,7 +35,9 @@ export const CardsList = (props: CardsListPropsType) => {
         dispatch(FetchPacksThunk())
     }
     const addCardHandler = (question: string, answer: string) => dispatch(AddCardThunk({card: {cardsPack_id: currentCardsPackID, question, answer}}))
-
+    const learnCards = () => {
+        setShowEducation(true)
+    }
     useEffect(() => {
         if (!isLoggedIn) return
         dispatch(FetchCardsThunk())
@@ -41,18 +46,22 @@ export const CardsList = (props: CardsListPropsType) => {
     if (!props.show) {
         return <Packs />
     }
+    if (showEducation && currentCardsPack){
+        return <Education setShowEducation={setShowEducation} cardsPack={currentCardsPack}/>
+    }
     return <div>
-        <div className={s.packsContainer}>
-            <div className={s.packsBar}>
+        <div className={s.tableContainer}>
+            <div className={s.tableBar}>
                 <SuperButton onClick={showPacks}>
                     <img src={imgVector}/>  Back
                 </SuperButton>
+                <SuperButton onClick={learnCards}>Learn Cards</SuperButton>
                 <ModalDoubleInputContainer title={'Add new card'} messageName={'Add new card'}
                                      callback={addCardHandler}
                                      currentCardsPackID={currentCardsPackID}
                 />
             </div>
-            <div className={s.packs}>
+            <div className={s.items}>
                 <h1>{currentCardsPack && currentCardsPack.name}</h1>
                 <Cards entityStatus={entityStatus}/>
             </div>

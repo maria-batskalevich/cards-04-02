@@ -7,7 +7,7 @@ import {ModalContainer} from "../../../n3-modals/ModalContainer";
 import {ModalInputContainer} from "../../../n3-modals/InputModal/SimpleInput/ModalInputContainer";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
-import s from './Packs.module.css'
+import s from '../Table.module.css'
 import {SetCurrentCardsPackIdAC} from "../Cards/CardsReducer";
 
 type PacksPropsType = {
@@ -32,7 +32,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                 <th></th>
             </tr>
             </thead>
-            <tbody className={s.pack}>
+            <tbody className={s.item}>
             {props.cardsPacks && props.cardsPacks[0] && props.cardsPacks.map((c) => {
 
                 const deletePackHandler = () => {
@@ -52,7 +52,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                     <td>{c.updated.slice(0, 10)}</td>
                     <td>{c.created.slice(0, 10)}</td>
                     <td>{c.rating}</td>
-                    <td className={s.packsButtons}>
+                    <td className={s.tableButtons}>
                         <SuperButton disabled={props.entityStatus === 'loading'}
                                      onClick={showCardsComponent}>Learn</SuperButton>
                         {props.user_id === c.user_id &&

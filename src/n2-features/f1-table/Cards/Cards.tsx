@@ -1,4 +1,4 @@
-import s from "../Packs/Packs.module.css";
+import s from "../Table.module.css";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 import React from "react";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
@@ -30,7 +30,7 @@ export const Cards = (props: CardsPropsType) => {
                 <th></th>
             </tr>
             </thead>
-            <tbody className={s.pack}>
+            <tbody className={s.item}>
             {cards.map(c => {
                 const deleteCardHandler = () => dispatch(DeleteCardThunk(c._id))
                 const updateCardHandler = (question: string, answer: string) => dispatch(UpdateCardThunk({card: {...c, question, answer}}))

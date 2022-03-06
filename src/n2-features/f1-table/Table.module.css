@@ -1,18 +1,18 @@
-.packsContainer {
+.tableContainer {
     display: flex;
     justify-content: center;
 }
-.packsBar {
+.tableBar {
     width: 20%;
     max-height: 100vh;
     background: #ECECF9;
     border-radius: 8px;
 }
-.packs {
+.items {
     background: #ECECF9;
     border-radius: 8px;
 }
-.pack {
+.item {
     max-height: 100vh;
     background: #FEFEFF;
     border-radius: 8px;
@@ -27,7 +27,7 @@
     display: flex;
     justify-content: space-between;
 }
-.packsButtons {
+.tableButtons {
     display: flex;
 }
 td {
