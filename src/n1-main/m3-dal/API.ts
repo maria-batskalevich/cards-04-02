@@ -12,16 +12,8 @@ import {
     CardsPacksType,
     CardPacksResponseType,
     CardsResponseType,
-    GetCardsQueryParams, PostCardsQueryParams, CardType
+    GetCardsQueryParams, PostCardsQueryParams, CardType, PutCardQueryParams, PutCardsQueryParams
 } from "./ApiResponseTypes";
-
-
-// const settings = {
-//     withCredentials: true,
-//     headers: {
-//         'API-KEY': ''
-//     }
-// }
 
 const instance = axios.create({
     //baseURL: 'https://neko-back.herokuapp.com/2.0/',
@@ -67,22 +59,8 @@ export const API = {
         addCard: (payload: PostCardsQueryParams)=>
             instance.post<CardType, ApiResponseTypes<CardType>>('cards/card', payload),
         deleteCard: (idCard: string) =>
-            instance.delete<CardsResponseType>('cards/card', {params: {id: idCard}} )
+            instance.delete<CardsResponseType>('cards/card', {params: {id: idCard}}),
+        updateCard: (payload?: PutCardsQueryParams)=>
+            instance.put<CardType, ApiResponseTypes<CardType>>('cards/card', payload),
     }
 };
-
-
-// export const authAPI = {
-//     login(data: LoginParamsType) {
-//         return instance.post<AuthResponseType| {error: string}>('auth/login', {...data})
-//     },
-//     logOut(data: {}) {
-//         return instance.delete<{info: string} | {error: string}>('auth/me', {})
-//     },
-//     registration(data: {email: string, password: string}) {
-//         return instance.post<{addedUser: AuthResponseType}>('/auth/register', data)
-//     },
-//     me(data: {}) {
-//         return instance.post<AuthResponseType>('/auth/me', data)
-//     }
-// }

@@ -1,5 +1,4 @@
 export type ApiResponseTypes<D = {}> = {
-    //resultCode: number;
     data: D;
     info?: string;
     error?: string;
@@ -80,13 +79,13 @@ export type CardType = {
     question: string
     cardsPack_id: string
     grade: number
-    rating: number
+    rating?: number
     shots: number
-    type: string
-    user_id: string
-    created: string
-    updated: string
-    __v: number
+    type?: string
+    user_id?: string
+    created?: string
+    updated?: string
+    __v?: number
     _id: string
 }
 export type CardsResponseType = {
@@ -114,13 +113,13 @@ export type PostCardQueryParams = {
     answer?: string
     grade?: number
     shots?: number
-   /* rating?: number
-    answerImg?: string
-    questionImg?: string
-    questionVideo?: string
-    answerVideo?: string
-    type?: string*/
+}
+export type PutCardQueryParams = PostCardQueryParams & {
+    _id: string
 }
 export type PostCardsQueryParams = {
     card: PostCardQueryParams
+}
+export type PutCardsQueryParams = {
+    card: PutCardQueryParams
 }

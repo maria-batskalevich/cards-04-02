@@ -7,20 +7,16 @@ import {PostCardsQueryParams} from "../../../n1-main/m3-dal/ApiResponseTypes";
 type ModalDoubleInputPropsType = {
     title: string
     messageName: string
-    messageAnswer?: string
-    callback: (payload: PostCardsQueryParams) => void
+    callback: (question: string, answer: string) => void
     show: boolean
     closeModalInput: () => void
-    currentCardsPackID: string
 }
 export const ModalDoubleInput: React.FC<ModalDoubleInputPropsType> = ({
                                                               title,
                                                               messageName,
-                                                              messageAnswer,
                                                               callback,
                                                               show,
                                                               closeModalInput,
-                                                              currentCardsPackID
                                                           }) => {
     const [value, setValue] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
@@ -28,7 +24,7 @@ export const ModalDoubleInput: React.FC<ModalDoubleInputPropsType> = ({
     const saveValue = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value)
     const saveAnswer = (e: ChangeEvent<HTMLInputElement>) => setAnswer(e.currentTarget.value)
     const onClickHandler = () => {
-        callback({card: {cardsPack_id: currentCardsPackID, question: value, answer: answer}})
+        callback(value, answer)
         closeModalInput()
         setValue('')
     }

@@ -8,8 +8,9 @@ import {Packs} from "../Packs/Packs";
 import {Cards} from "./Cards";
 import s from "../Packs/Packs.module.css";
 import {AddCardThunk, FetchCardsThunk} from "./CardsReducer";
-import {CardPacksResponseType, PostCardsQueryParams} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {ModalDoubleInputContainer} from "../../../n3-modals/InputModal/DoubleInput/ModalDoubleInputContainer";
+import {FetchPacksThunk} from "../Packs/PacksReducer";
 
 type CardsListPropsType = {
     cardsPacks?: CardPacksResponseType[]
@@ -26,8 +27,11 @@ export const CardsList = (props: CardsListPropsType) => {
 
     const currentCardsPack = props.cardsPacks && props.cardsPacks.find(c => c._id === currentCardsPackID)
 
-    const showPacks = () => props.setShow(false)
-    const addCardHandler = (payload: PostCardsQueryParams) => dispatch(AddCardThunk({...payload}))
+    const showPacks = () => {
+        props.setShow(false)
+        dispatch(FetchPacksThunk())
+    }
+    const addCardHandler = (question: string, answer: string) => dispatch(AddCardThunk({card: {cardsPack_id: currentCardsPackID, question, answer}}))
 
     useEffect(() => {
         if (!isLoggedIn) return
@@ -44,7 +48,6 @@ export const CardsList = (props: CardsListPropsType) => {
                     <img src={imgVector}/>  Back
                 </SuperButton>
                 <ModalDoubleInputContainer title={'Add new card'} messageName={'Add new card'}
-                                     messageAnswer={''}
                                      callback={addCardHandler}
                                      currentCardsPackID={currentCardsPackID}
                 />
