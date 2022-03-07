@@ -1,10 +1,13 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import imgVector from "../../../assets/Vector 1.png";
 import s from "../Table.module.css";
 import {CardPacksResponseType, CardType} from "../../../n1-main/m3-dal/ApiResponseTypes";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
+import {Navigate, useParams} from "react-router-dom";
+import {FetchCardsThunk} from "../Cards/CardsReducer";
+import {cleverRandom} from "./cleverRandom";
 
 
 type EducationPropsType = {
@@ -14,9 +17,41 @@ type EducationPropsType = {
 export const Education = (props: EducationPropsType) => {
 
     const [showAnswer, setShowAnswer] = useState<boolean>(false)
+    const [first, setFirst] = useState<boolean>(true)
+    const [card, setCard] = useState<CardType>({
+        answer: 'Fake answer',
+        question: 'Fake question',
+        cardsPack_id: 'Fake',
+        grade: 0,
+        rating: 0,
+        shots: 0,
+        type: '',
+        user_id: '',
+        created: '',
+        updated: '',
+        __v: 0,
+        _id: 'Fake'
+    })
 
+    const dispatch = useDispatch()
+    const {id} = useParams<'id'>()
+
+    const grades = ['1', '2', '3', '4', '5']
     const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards)
     const showCards = () => props.setShowEducation(false)
+    const showAnswerHandler = () => setShowAnswer(true)
+    const showNextCard = () => {
+        setShowAnswer(false)
+        cards.length > 0 && setCard(cleverRandom(cards))
+    }
+
+    useEffect(() => {
+        if (first) {
+            dispatch(FetchCardsThunk({cardsPack_id: id}))
+            setFirst(false)
+        }
+        if (cards.length > 0) setCard(cleverRandom(cards))
+    }, [dispatch, id, cards, first])
 
     return <div className={s.tableContainer}>
         <div className={s.tableBar}>
@@ -26,22 +61,13 @@ export const Education = (props: EducationPropsType) => {
         </div>
         <div className={s.items}>
             <h1>{props.cardsPack.name}</h1>
+            <div>{card.question}</div>
+            <SuperButton onClick={showAnswerHandler}>Show Answer</SuperButton>
+            {showAnswer && <div>{card.answer}</div>}
+            <SuperButton onClick={showNextCard}>Next</SuperButton>
             <div>
-                {cards.map(c => {
-                    const showAnswerHandler = () => setShowAnswer(true)
-                    return <div>
-                        <div>{c.question}</div>
-                        <SuperButton onClick={showAnswerHandler}>Show Answer</SuperButton>
-                        {showAnswer && <div>{c.answer}</div>}
-                    </div>
-                })}
-            </div>
-            <div>
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span>5</span>
+                <h3>Rate yourself:</h3>
+                {grades.map((g, index) => <span key={index}>{g}</span>)}
             </div>
         </div>
     </div>

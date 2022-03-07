@@ -17,7 +17,7 @@ export const PROFILE_ROUTE = 'profile';
 export const RECOVERY_PASS_ROUTE = 'recoveryPass';
 export const NEW_PASS_ROUTE = 'newPass:token';
 export const PACKS_ROUTE = 'cardPacks';
-export const CARDS_ROUTE = 'cards';
+export const CARDS_ROUTE = 'cards:id';
 export const DEMONSTRATION_ROUTE = 'demonstration';
 
 export const publicRoutes = [
@@ -49,10 +49,10 @@ export const publicRoutes = [
         path: PACKS_ROUTE,
         component: <PacksList/>,
     },
-  /*  {
+    {
         path: CARDS_ROUTE,
-        component: <CardsList />,
-    },*/
+        component: <CardsList setShow={() => {}} show={false}/>,
+    },
     // {
     //     path: DEMONSTRATION_ROUTE,
     //     component: <Demonstration/>,

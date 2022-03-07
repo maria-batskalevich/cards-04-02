@@ -3,7 +3,7 @@ import {API} from "../../../n1-main/m3-dal/API";
 import {handleInternetError, handleResponse} from "../../../n1-main/m1-ui/common/utils";
 import {
     CardsResponseType,
-    CardType,
+    CardType, GetCardsQueryParams,
     PostCardsQueryParams,
     PutCardsQueryParams
 } from "../../../n1-main/m3-dal/ApiResponseTypes";
@@ -58,7 +58,7 @@ export const UpdateCardAC = (payload: CardType) =>
     ({type: 'cards/UPDATE-CARD', payload} as const);
 
 //thunks
-export const FetchCardsThunk = () => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+export const FetchCardsThunk = (payload?: GetCardsQueryParams) => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
     const cards = getState().cards
 
     dispatch(SetStatusApp('loading'))
