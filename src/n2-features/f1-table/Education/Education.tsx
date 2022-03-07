@@ -6,7 +6,7 @@ import {CardPacksResponseType, CardType} from "../../../n1-main/m3-dal/ApiRespon
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {Navigate, useParams} from "react-router-dom";
-import {FetchCardsThunk} from "../Cards/CardsReducer";
+import {FetchCardsThunk, UpdateGradeAC, UpdateGradeThunk} from "../Cards/CardsReducer";
 import {cleverRandom} from "./cleverRandom";
 
 
@@ -67,7 +67,10 @@ export const Education = (props: EducationPropsType) => {
             <SuperButton onClick={showNextCard}>Next</SuperButton>
             <div>
                 <h3>Rate yourself:</h3>
-                {grades.map((g, index) => <span key={index}>{g}</span>)}
+                {grades.map((g, index) => {
+                    const updateGradeHandler = () => dispatch(UpdateGradeThunk({grade: index +1, card_id: card._id}))
+                  return  <span key={index} onClick={updateGradeHandler}>{g}</span>
+                })}
             </div>
         </div>
     </div>

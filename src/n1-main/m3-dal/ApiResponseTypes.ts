@@ -123,3 +123,17 @@ export type PostCardsQueryParams = {
 export type PutCardsQueryParams = {
     card: PutCardQueryParams
 }
+export type UpdatedGradeType = {
+    updatedGrade: {
+        _id: string
+        cardsPack_id: string
+        card_id: string
+        user_id: string
+        grade: number
+        shots: number
+    }
+}
+export type UpdateGradeQueryParams = {
+    grade: number,
+    card_id: string
+}

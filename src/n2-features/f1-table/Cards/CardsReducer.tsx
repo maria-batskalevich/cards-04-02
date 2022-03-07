@@ -5,7 +5,7 @@ import {
     CardsResponseType,
     CardType, GetCardsQueryParams,
     PostCardsQueryParams,
-    PutCardsQueryParams
+    PutCardsQueryParams, UpdateGradeQueryParams
 } from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {SetEntityStatus, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
 
@@ -40,6 +40,8 @@ export const CardsReducer = (state = initialState, action: CardsActionTypes): Ca
                 ...state,
                 cards: state.cards.map(c => c._id === action.payload._id ? {...c, ...action.payload}: c)
             } as CardsResponseType & { currentCardsPackID: string; currentGrade: number[] }
+        case "cards/UPDATE-GRADE":
+            return {...state, cards: state.cards.map(c => c._id === action.payload.card_id ? {...c, grade: action.payload.grade} : c )}
         default:
             return state;
     }
@@ -56,6 +58,8 @@ export const DeleteCardAC = (payload: { id: string }) =>
     ({type: 'cards/DELETE-CARD', payload} as const);
 export const UpdateCardAC = (payload: CardType) =>
     ({type: 'cards/UPDATE-CARD', payload} as const);
+export const UpdateGradeAC = (payload: { grade: number, card_id: string }) =>
+    ({type: 'cards/UPDATE-GRADE', payload} as const);
 
 //thunks
 export const FetchCardsThunk = (payload?: GetCardsQueryParams) => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
@@ -123,10 +127,25 @@ export const UpdateCardThunk = (payload?: PutCardsQueryParams): ThunkType => (di
             handleInternetError(dispatch, error)
         })
 }
+export const UpdateGradeThunk = (payload: UpdateGradeQueryParams): ThunkType => (dispatch) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
+    API.cardsAPI.updateGrade(payload)
+        .then(res => {
+            handleResponse(dispatch, UpdateGradeAC(res.data.updatedGrade))
+        })
+        .catch(err => {
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)})
+}
+
 export type CardsActionTypes =
     ReturnType<typeof SetCardsAC>
     | ReturnType<typeof SetCurrentCardsPackIdAC>
     | ReturnType<typeof DeleteCardAC>
     | ReturnType<typeof AddCardAC>
-    | ReturnType<typeof UpdateCardAC>;
+    | ReturnType<typeof UpdateCardAC>
+    | ReturnType<typeof UpdateGradeAC>;
 

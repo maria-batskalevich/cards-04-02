@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { initLoginStateType } from '../../n2-features/f0-test/Profile/ProfileReducer';
+import {initLoginStateType} from '../../n2-features/f0-test/Profile/ProfileReducer';
 import {
     ApiResponseTypes,
     AuthLoginResponseTypes,
@@ -12,7 +12,13 @@ import {
     CardsPacksType,
     CardPacksResponseType,
     CardsResponseType,
-    GetCardsQueryParams, PostCardsQueryParams, CardType, PutCardQueryParams, PutCardsQueryParams
+    GetCardsQueryParams,
+    PostCardsQueryParams,
+    CardType,
+    PutCardQueryParams,
+    PutCardsQueryParams,
+    UpdateGradeQueryParams,
+    UpdatedGradeType
 } from "./ApiResponseTypes";
 
 const instance = axios.create({
@@ -46,21 +52,28 @@ export const API = {
             instance.get<CardsPacksResponseType>('cards/pack', {params: payload}),
         addPack: (packName: string) =>
             instance.post<{ newCardPacks: CardsPacksType },
-                ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack', {cardsPack: {name: packName}}),
+                ApiResponseTypes<{ data: CardPacksResponseType }>>('cards/pack', {cardsPack: {name: packName}}),
         deletePack: (idPack: string) =>
             instance.delete<CardsPacksResponseType>('cards/pack', {params: {id: idPack}}),
-        updatePack:(idPack: string, packName: string) =>
+        updatePack: (idPack: string, packName: string) =>
             instance.put<{ updateCardPacks: CardsPacksType },
-                ApiResponseTypes<{data: CardPacksResponseType}>>('cards/pack',{cardsPack: {_id: idPack, name: packName}})
+                ApiResponseTypes<{ data: CardPacksResponseType }>>('cards/pack', {
+                cardsPack: {
+                    _id: idPack,
+                    name: packName
+                }
+            })
     },
     cardsAPI: {
         getCards: (payload?: GetCardsQueryParams) =>
             instance.get<CardsResponseType>('cards/card', {params: payload}),
-        addCard: (payload: PostCardsQueryParams)=>
+        addCard: (payload: PostCardsQueryParams) =>
             instance.post<CardType, ApiResponseTypes<CardType>>('cards/card', payload),
         deleteCard: (idCard: string) =>
             instance.delete<CardsResponseType>('cards/card', {params: {id: idCard}}),
-        updateCard: (payload?: PutCardsQueryParams)=>
+        updateCard: (payload?: PutCardsQueryParams) =>
             instance.put<CardType, ApiResponseTypes<CardType>>('cards/card', payload),
+        updateGrade: (payload: UpdateGradeQueryParams) =>
+            instance.put<{ updatedGrade: UpdatedGradeType }, ApiResponseTypes<UpdatedGradeType>>('/cards/grade', payload)
     }
 };
