@@ -5,8 +5,8 @@ import s from "../Table.module.css";
 import {CardPacksResponseType, CardType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {Navigate, useParams} from "react-router-dom";
-import {FetchCardsThunk, UpdateGradeAC, UpdateGradeThunk} from "../Cards/CardsReducer";
+import {useParams} from "react-router-dom";
+import {FetchCardsThunk, UpdateGradeThunk} from "../Cards/CardsReducer";
 import {cleverRandom} from "./cleverRandom";
 
 
@@ -60,16 +60,17 @@ export const Education = (props: EducationPropsType) => {
             </SuperButton>
         </div>
         <div className={s.items}>
-            <h1>{props.cardsPack.name}</h1>
-            <div>{card.question}</div>
-            <SuperButton onClick={showAnswerHandler}>Show Answer</SuperButton>
-            {showAnswer && <div>{card.answer}</div>}
+            <h1>Learn "{props.cardsPack.name}"</h1>
+            <div> Question: {card.question}</div>
+            {showAnswer && <div>Answer: {card.answer}</div>}
+
+            {!showAnswer &&<SuperButton onClick={showAnswerHandler}>Show Answer</SuperButton>}
             <SuperButton onClick={showNextCard}>Next</SuperButton>
             <div>
                 <h3>Rate yourself:</h3>
                 {grades.map((g, index) => {
-                    const updateGradeHandler = () => dispatch(UpdateGradeThunk({grade: index +1, card_id: card._id}))
-                  return  <span key={index} onClick={updateGradeHandler}>{g}</span>
+                    const updateGradeHandler = () => dispatch(UpdateGradeThunk({grade: index + 1, card_id: card._id}))
+                    return <span key={index} onClick={updateGradeHandler}>{g}</span>
                 })}
             </div>
         </div>

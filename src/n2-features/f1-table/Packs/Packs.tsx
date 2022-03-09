@@ -53,7 +53,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                     <td>{c.created.slice(0, 10)}</td>
                     <td>{c.rating}</td>
                     <td className={s.tableButtons}>
-                        <SuperButton disabled={props.entityStatus === 'loading'}
+                        <SuperButton disabled={props.entityStatus === 'loading' || c.cardsCount === 0}
                                      onClick={showCardsComponent}>Learn</SuperButton>
                         {props.user_id === c.user_id &&
                         <>

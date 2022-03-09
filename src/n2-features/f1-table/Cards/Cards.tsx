@@ -27,7 +27,7 @@ export const Cards = (props: CardsPropsType) => {
                 <th>Answer</th>
                 <th>Last updated</th>
                 <th>Grade</th>
-                <th></th>
+                {user_id && <th></th>}
             </tr>
             </thead>
             <tbody className={s.item}>
@@ -40,8 +40,7 @@ export const Cards = (props: CardsPropsType) => {
                     <td>{c.answer}</td>
                     <td>{c.updated && c.updated.slice(0, 10)}</td>
                     <td>{c.grade}</td>
-                    <td>{
-                        user_id === c.user_id &&
+                    {user_id === c.user_id && <td>
                         <> <ModalDoubleInputContainer title={'Update'}
                                                       messageName={'Update card'}
                                                       callback={updateCardHandler}
@@ -49,7 +48,7 @@ export const Cards = (props: CardsPropsType) => {
                             <ModalContainer title={'Delete'}
                                                        message={`Do you really want to remove this card`}
                                                        callback={deleteCardHandler}/>
-                        </>}</td>
+                        </></td>}
                 </tr>
             })}
             </tbody>

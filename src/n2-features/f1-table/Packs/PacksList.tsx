@@ -11,6 +11,7 @@ import {Packs} from "./Packs";
 import {ModalUp} from "../../../n3-modals/UpModal/ModalUp";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {CardsList} from "../Cards/CardsList";
+import {MultiSlider} from "../../../n1-main/m1-ui/common/MultiSlider/MultiSlider";
 
 export const PacksList = (): ReactElement => {
 
@@ -50,7 +51,7 @@ export const PacksList = (): ReactElement => {
                 </div>
                 <div>
                     <span>Number of cards</span>
-                    <input type={'range'}/>
+                    <MultiSlider max={103} min={0} callback={() => {}}/>
                 </div>
                 <ModalInputContainer title={'Add new pack'} messageName={'Add new pack'} callback={addPackHandler}/>
             </div>
