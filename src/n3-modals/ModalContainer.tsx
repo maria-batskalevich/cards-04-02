@@ -28,7 +28,7 @@ export const ModalContainer = (props: ModalContainerPropsType) => {
             show={show}>
             {props.message}
             <SuperButton onClick={props.callback}>{props.title}</SuperButton>
-            <SuperButton onClick={closeModalHandler}>Close</SuperButton>
+            <SuperButton style={{background: '#D7D8EF', color: '#21268F'}} onClick={closeModalHandler}>Close</SuperButton>
         </Modal>
     </div>
 }

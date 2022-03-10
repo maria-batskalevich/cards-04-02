@@ -35,19 +35,20 @@ export const NewPassword = () => {
     return (
         <div>
             <div className={s.container}>
-            <div>
-                <h1>New password</h1>
-                <div><SuperInputText type={'password'}
-                                     placeholder={'new password'}
-                                     value={password}
-                                     onChange={changePassword}
-                                     disabled={entityStatus === 'loading'}
-                /></div>Change password
-                <div><SuperButton onClick={setNewPassword}
-                                  disabled={entityStatus === 'loading'}>Change</SuperButton>
+                <div>
+                    <h1>New password</h1>
+                    <div><SuperInputText type={'password'}
+                                         placeholder={'new password'}
+                                         value={password}
+                                         onChange={changePassword}
+                                         disabled={entityStatus === 'loading'}
+                                         name={'New password'}
+                    /></div>
+                    <div>
+                        <SuperButton onClick={setNewPassword} disabled={entityStatus === 'loading'}>Change</SuperButton>
+                    </div>
                 </div>
             </div>
-        </div>
             {entityStatus === 'loading' && <LoadingProgress/>}
         </div>
     );

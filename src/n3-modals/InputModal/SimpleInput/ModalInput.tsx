@@ -41,7 +41,7 @@ export const ModalInput: React.FC<ModalInputPropsType> = ({
             {messageAnswer !== undefined &&
             <>{messageAnswer}<SuperInputText value={answer} onChange={saveAnswer} autoFocus/></>}
             <SuperButton onClick={onClickHandler}>{title}</SuperButton>
-            <SuperButton onClick={closeModalInput}>Close</SuperButton>
+            <SuperButton style={{background: '#D7D8EF', color: '#21268F'}} onClick={closeModalInput}>Close</SuperButton>
         </Modal>
     </>
 }

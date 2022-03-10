@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useRef, useState} from 'react'
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react'
 import s from './MultiSlider.module.css'
 
 type MultiSliderPropsType = {
     min: number
     max: number
-    callback: () => void
+    callback: (max: number, min: number) => void
 }
 export const MultiSlider = (props: MultiSliderPropsType) => {
     const [minVal, setMinVal] = useState<number>(props.min)
@@ -14,7 +14,7 @@ export const MultiSlider = (props: MultiSliderPropsType) => {
     const range = useRef(null)
 
     const minRangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = Math.min(Number(e.currentTarget.value), maxVal - 1)
+        const value = Math.min(Number(e.currentTarget.value), maxVal -1)
         setMinVal(value)
         minValRef.current = value
     }
@@ -23,6 +23,10 @@ export const MultiSlider = (props: MultiSliderPropsType) => {
         setMaxVal(value)
         maxValRef.current = value
     }
+    useEffect(() => {
+        props.callback(maxVal, minVal);
+    }, [minVal, maxVal, props.callback]);
+
     return <div className={s.container}>
         <input type={'range'} min={props.min} max={props.max} value={minVal}
                onChange={minRangeHandler} style={{zIndex: `${minVal > props.max - 100 && "5"}`}}

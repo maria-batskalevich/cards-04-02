@@ -31,11 +31,11 @@ export const RecoveryPassword = (): React.ReactElement => {
     }
     return <div>
         <div className={s.container}><h1>Recovery Password</h1>
-            email
             <div><SuperInputText type={'email'} placeholder={'Email'}
                                  value={email}
                                  onChange={changeEmail}
                                  disabled={statusApp === 'loading'}
+                                 name={'Email'}
             /></div>Send link to reset password
             <div><SuperButton onClick={recoveryPass}
                               disabled={statusApp === 'loading'}>Send</SuperButton>

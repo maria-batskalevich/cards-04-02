@@ -27,6 +27,9 @@ export const PacksReducer = (
         case 'packs/SET-COUNT-ON-PAGE': {
             return {...state, pageCount: action.payload.pageCount};
         }
+        case 'packs/SET_CARDS_COUNT': {
+            return {...state, minCardsCount: action.payload.minCardsCount, maxCardsCount: action.payload.maxCardsCount}
+        }
         case 'packs/ADD_CARDS_PACK': {
             return {...state, cardPacks: [action.newCardPacks, ...state.cardPacks]}
         }
@@ -52,6 +55,9 @@ export const SetPrivateCardsPackAC = (user_id: string | null | undefined) => {
 };
 export const SetPageCountAC = (countOnPage: number) => {
     return {type: 'packs/SET-COUNT-ON-PAGE', payload: {pageCount: countOnPage}} as const
+};
+export const SetCardsCountAC = (maxCardsCount: number, minCardsCount: number) => {
+    return {type: 'packs/SET_CARDS_COUNT', payload: {maxCardsCount, minCardsCount}} as const
 };
 export const AddNewCardsPackAC = (newCardsPack: CardPacksResponseType) => {
     return {type: 'packs/ADD_CARDS_PACK', newCardPacks: newCardsPack} as const
@@ -152,5 +158,6 @@ export type CardPacksActionTypes =
     | ReturnType<typeof DeleteCardsPackAC>
     | ReturnType<typeof UpdateCardsPackAC>
     | ReturnType<typeof SetPrivateCardsPackAC>
-    | ReturnType<typeof SetPageCountAC>;
+    | ReturnType<typeof SetPageCountAC>
+    | ReturnType<typeof SetCardsCountAC>;
 

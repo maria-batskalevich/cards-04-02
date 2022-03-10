@@ -6,6 +6,7 @@ import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButto
 import s from '../../../n1-main/m1-ui/common/Container.module.css'
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
+import SuperInputText from "../../../n1-main/m1-ui/common/c1-SuperInputText/SuperInputText";
 
 export const Profile = () => {
 
@@ -53,15 +54,15 @@ export const Profile = () => {
                     style={{borderRadius: '50%', width: '150px', height: '150px'}}
                     src={avatar}
                     alt=""/>
-                <div><span>Avatar: </span><input type="text" value={avatar} onChange={updateAvatar}
+                <div><span>Avatar: </span><SuperInputText type="text" value={avatar} onChange={updateAvatar}
                                                  placeholder={'http:'}/></div>
                 <div><span>Name :</span>
-                    <input type="text" value={name} onChange={updateName} placeholder={name}/></div>
+                    <SuperInputText type="text" value={name} onChange={updateName} placeholder={name}/></div>
                 <div><span>Email :</span>
                     <span>{email}</span>
                 </div>
                 <div>
-                    <SuperButton onClick={() => setEditMode(false)}>Cansel</SuperButton>
+                    <SuperButton style={{background: '#D7D8EF', color: '#21268F'}} onClick={() => setEditMode(false)}>Cansel</SuperButton>
                     <SuperButton onClick={updateUserData}>Save</SuperButton>
                 </div>
             </div>

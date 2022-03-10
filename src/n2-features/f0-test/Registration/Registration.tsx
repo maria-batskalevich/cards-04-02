@@ -35,10 +35,8 @@ export const Registration = () => {
     return <div>
         <div className={s.container}><h1>Register</h1>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div>Email :</div>
-                <SuperInputText type="text" value={email} onChange={onChangeEmail}/>
-                <div>Password :</div>
-                <SuperInputText type="password" value={password} onChange={onChangePassword}/>
+                <SuperInputText type="text" value={email} onChange={onChangeEmail} name={'Email'}/>
+                <SuperInputText type="password" value={password} onChange={onChangePassword} name={'Password'}/>
             </div>
             <SuperButton disabled={entityStatus === 'loading'} onClick={registerUser}>Register</SuperButton>
         </div>

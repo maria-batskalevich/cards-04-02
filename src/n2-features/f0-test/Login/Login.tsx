@@ -35,9 +35,9 @@ export const Login = (): React.ReactElement => {
     return <div>
         <div className={s.container}>
             <h1>Sign In</h1>
-            <div><SuperInputText type={'email'} placeholder={'Email'} value={email}
+            <div><SuperInputText type={'email'} placeholder={'Email'} value={email} name={'Email'}
                                  onChange={changeEmail} disabled={entityStatus === 'loading'}/></div>
-            <div><SuperInputText type={'password'} placeholder={'Password'} value={password}
+            <div><SuperInputText type={'password'} placeholder={'Password'} value={password} name={'Password'}
                                  onChange={changePassword} disabled={entityStatus === 'loading'}/></div>
             <div><span>Remember me</span>
                 <SuperCheckbox type={'checkbox'} checked={rememberMe}
