@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import imgVector from "../../../assets/Vector 1.png";
-import s from "../Table.module.css";
+import s from "../../../n1-main/m1-ui/common/Container.module.css";
 import {CardPacksResponseType, CardType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
@@ -53,13 +53,8 @@ export const Education = (props: EducationPropsType) => {
         if (cards.length > 0) setCard(cleverRandom(cards))
     }, [dispatch, id, cards, first])
 
-    return <div className={s.tableContainer}>
-        <div className={s.tableBar}>
-            <SuperButton onClick={showCards}>
-                <img src={imgVector}/> Back
-            </SuperButton>
-        </div>
-        <div className={s.items}>
+    return <div className={s.container}>
+        <div>
             <h1>Learn "{props.cardsPack.name}"</h1>
             <div> Question: {card.question}</div>
             {showAnswer && <div>Answer: {card.answer}</div>}
@@ -70,8 +65,13 @@ export const Education = (props: EducationPropsType) => {
                 <h3>Rate yourself:</h3>
                 {grades.map((g, index) => {
                     const updateGradeHandler = () => dispatch(UpdateGradeThunk({grade: index + 1, card_id: card._id}))
-                    return <span key={index} onClick={updateGradeHandler}>{g}</span>
+                    return <span key={index} onClick={updateGradeHandler}> {g} </span>
                 })}
+            </div>
+            <div>
+                <SuperButton onClick={showCards}>
+                    <img src={imgVector}/> Back
+                </SuperButton>
             </div>
         </div>
     </div>

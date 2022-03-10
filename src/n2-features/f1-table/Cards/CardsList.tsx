@@ -52,17 +52,17 @@ export const CardsList = (props: CardsListPropsType) => {
     return <div>
         <div className={s.tableContainer}>
             <div className={s.tableBar}>
-                <SuperButton onClick={showPacks}>
-                    <img src={imgVector}/>  Back
-                </SuperButton>
+                <h1>{currentCardsPack && currentCardsPack.name}</h1>
                 <SuperButton onClick={learnCards}>Learn Cards</SuperButton>
                 <ModalDoubleInputContainer title={'Add new card'} messageName={'Add new card'}
                                      callback={addCardHandler}
                                      currentCardsPackID={currentCardsPackID}
                 />
+                <SuperButton onClick={showPacks}>
+                    <img src={imgVector}/>  Back
+                </SuperButton>
             </div>
             <div className={s.items}>
-                <h1>{currentCardsPack && currentCardsPack.name}</h1>
                 <Cards entityStatus={entityStatus}/>
             </div>
         </div>

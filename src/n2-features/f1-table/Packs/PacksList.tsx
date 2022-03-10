@@ -28,7 +28,7 @@ export const PacksList = (): ReactElement => {
 
     const [show, setShow] = useState(false)
 
-    const filteredCards = cardsPacks.filter(c => c.cardsCount >= minCardsCount && c.cardsCount <= maxCardsCount)
+    const filteredCards = cardsPacks.filter(c => c && c.cardsCount >= minCardsCount && c.cardsCount <= maxCardsCount)
 
     const changeCardsCount = useMemo(() => debounce((max: number, min: number) =>
         dispatch(SetCardsCountAC(max, min)), 500), [dispatch])
