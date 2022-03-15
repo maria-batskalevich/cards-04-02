@@ -11,14 +11,12 @@ import {
     CardsPacksResponseType,
     CardsPacksType,
     CardPacksResponseType,
-    CardsResponseType,
     GetCardsQueryParams,
+    CardsResponseType,
     PostCardsQueryParams,
     CardType,
-    PutCardQueryParams,
     PutCardsQueryParams,
-    UpdateGradeQueryParams,
-    UpdatedGradeType
+    UpdateGradeQueryParams, UpdatedGradeType,
 } from "./ApiResponseTypes";
 
 const instance = axios.create({

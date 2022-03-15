@@ -8,17 +8,23 @@ import {CardType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {DeleteCardThunk, UpdateCardThunk} from "./CardsReducer";
 import {ModalContainer} from "../../../n3-modals/ModalContainer";
 import {ModalDoubleInputContainer} from "../../../n3-modals/InputModal/DoubleInput/ModalDoubleInputContainer";
+import {ModalInputContainer} from "../../../n3-modals/InputModal/SimpleInput/ModalInputContainer";
 
 type CardsPropsType = {
     entityStatus: StatusType
+    addCardHandler: (question: string, answer: string) => void
+    packId: string
+    cards: CardType[]
 }
 export const Cards = (props: CardsPropsType) => {
 
     const dispatch = useDispatch()
 
     const user_id = useSelector<AppRootStateType, string | null | undefined>(state => state.profile._id)
-    const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards)
 
+    if (props.cards.length === 0) {
+       return <h3>For adding new card click on button 'Add new card'</h3>
+    }
     return <div>
         <table>
             <thead className={s.columnName}>
@@ -31,9 +37,15 @@ export const Cards = (props: CardsPropsType) => {
             </tr>
             </thead>
             <tbody className={s.item}>
-            {cards.map(c => {
+            {props.cards.map(c => {
                 const deleteCardHandler = () => dispatch(DeleteCardThunk(c._id))
-                const updateCardHandler = (question: string, answer: string) => dispatch(UpdateCardThunk({card: {...c, question, answer}}))
+                const updateCardHandler = (question: string, answer: string) => dispatch(UpdateCardThunk({
+                    card: {
+                        ...c,
+                        question,
+                        answer
+                    }
+                }))
 
                 return <tr key={c._id}>
                     <td>{c.question}</td>
@@ -46,9 +58,10 @@ export const Cards = (props: CardsPropsType) => {
                                                       callback={updateCardHandler}
                                                       currentCardsPackID={c.cardsPack_id}/>
                             <ModalContainer title={'Delete'}
-                                                       message={`Do you really want to remove this card`}
-                                                       callback={deleteCardHandler}/>
-                        </></td>}
+                                            message={`Do you really want to remove this card`}
+                                            callback={deleteCardHandler}/>
+                        </>
+                    </td>}
                 </tr>
             })}
             </tbody>

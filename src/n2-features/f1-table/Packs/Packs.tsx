@@ -9,6 +9,7 @@ import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 import s from '../Table.module.css'
 import {SetCurrentCardsPackIdAC} from "../Cards/CardsReducer";
+import {ModalMessage} from "../../../n3-modals/MessageModal/ModalMessage";
 
 type PacksPropsType = {
     cardsPacks?: CardPacksResponseType[]
@@ -46,7 +47,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                     dispatch(SetCurrentCardsPackIdAC({id: c._id}))
                 }
 
-                return <tr key={c._id}>
+                return <tr key={c._id} className={`${c.user_id === props.user_id && s.trHover}`} onDoubleClick={c.user_id === props.user_id ? showCardsComponent : () => {}}>
                     <td>{c.name}</td>
                     <td>{c.cardsCount}</td>
                     <td>{c.updated.slice(0, 10)}</td>
@@ -61,7 +62,7 @@ export const Packs = (props: PacksPropsType): ReactElement => {
                                                  messageName={'Update pack name'}
                                                  callback={updatePackNameHandler}/>
                             <ModalContainer title={'Delete'}
-                                            message={`Do you really want to remove Pack Name - ${c.name}?\n +
+                                            message={`Do you really want to remove - ${c.name}?\n +
                                         '            All cards will be excluded from this course.`}
                                             callback={deletePackHandler}/>
                         </>}</td>

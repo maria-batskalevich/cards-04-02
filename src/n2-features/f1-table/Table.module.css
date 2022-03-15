@@ -32,6 +32,9 @@ table {
 tr {
     height: 50px;
 }
+.trHover:hover {
+    background: #0b7dda;
+}
 .columnName {
     height: 50px;
     align-items: center;

@@ -8,7 +8,7 @@ import {Packs} from "../Packs/Packs";
 import {Cards} from "./Cards";
 import s from "../Table.module.css";
 import {AddCardThunk, FetchCardsThunk} from "./CardsReducer";
-import {CardPacksResponseType} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {CardPacksResponseType, CardType} from "../../../n1-main/m3-dal/ApiResponseTypes";
 import {ModalDoubleInputContainer} from "../../../n3-modals/InputModal/DoubleInput/ModalDoubleInputContainer";
 import {FetchPacksThunk} from "../Packs/PacksReducer";
 import {Education} from "../Education/Education";
@@ -27,6 +27,7 @@ export const CardsList = (props: CardsListPropsType) => {
     const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.app.entityStatus)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const currentCardsPackID = useSelector<AppRootStateType, string>(state => state.cards.currentCardsPackID)
+    const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards)
 
     const currentCardsPack = props.cardsPacks && props.cardsPacks.find(c => c._id === currentCardsPackID)
 
@@ -41,7 +42,7 @@ export const CardsList = (props: CardsListPropsType) => {
     useEffect(() => {
         if (!isLoggedIn) return
         dispatch(FetchCardsThunk())
-    }, [dispatch])
+    }, [dispatch, currentCardsPack])
 
     if (!props.show) {
         return <Packs />
@@ -53,7 +54,7 @@ export const CardsList = (props: CardsListPropsType) => {
         <div className={s.tableContainer}>
             <div className={s.tableBar}>
                 <h1>{currentCardsPack && currentCardsPack.name}</h1>
-                <SuperButton onClick={learnCards}>Learn Cards</SuperButton>
+                <SuperButton disabled={cards.length === 0} onClick={learnCards}>Learn Cards</SuperButton>
                 <ModalDoubleInputContainer title={'Add new card'} messageName={'Add new card'}
                                      callback={addCardHandler}
                                      currentCardsPackID={currentCardsPackID}
@@ -63,7 +64,7 @@ export const CardsList = (props: CardsListPropsType) => {
                 </SuperButton>
             </div>
             <div className={s.items}>
-                <Cards entityStatus={entityStatus}/>
+                <Cards entityStatus={entityStatus} addCardHandler={addCardHandler} packId={currentCardsPackID} cards={cards}/>
             </div>
         </div>
     </div>
