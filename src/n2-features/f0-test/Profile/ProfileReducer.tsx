@@ -1,6 +1,9 @@
 import {Dispatch} from "redux";
 import {API} from "../../../n1-main/m3-dal/API";
 import {UpdateUserDataType} from "../../../n1-main/m3-dal/ApiResponseTypes";
+import {LoginAction} from "../Login/LoginReducer";
+import {handleInternetError} from "../../../n1-main/m1-ui/common/utils";
+import {SetEntityStatus, SetStatusApp} from "../../../n1-main/m2-bll/app-reducer";
 
 export type initLoginStateType = {
     avatar: string
@@ -55,8 +58,11 @@ export type ProfileActionTypes =
     | ReturnType<typeof SetLoadingAction>
     | ReturnType<typeof SetAvatarAction>
     | ReturnType<typeof SetUserId>
+    | ReturnType<typeof LoginAction>
 
 export const SetUserThunk = () => (dispatch: Dispatch) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     API.profileInfo()
         .then(res => {
             dispatch(SetNameAction(res.data.name))
@@ -64,22 +70,54 @@ export const SetUserThunk = () => (dispatch: Dispatch) => {
             dispatch(SetAvatarAction(res.data.avatar))
             dispatch(SetUserId(res.data._id))
             dispatch(SetLoadingAction(false))
+            dispatch(SetStatusApp('succeeded'))
+            dispatch(SetEntityStatus('succeeded'))
         })
         .catch(err => {
-            alert(err.data)
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
+        })
+}
+export const LogOutThunk = () => (dispatch: Dispatch) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
+    API.logAPI.logOut()
+        .then(res => {
+            dispatch(SetNameAction(''))
+            dispatch(SetEmailAction(''))
+            dispatch(SetAvatarAction(''))
+            dispatch(SetUserId(null))
+            dispatch(SetLoadingAction(false))
+            dispatch(LoginAction(false))
+            dispatch(SetStatusApp('succeeded'))
+            dispatch(SetEntityStatus('succeeded'))
+        })
+        .catch(err => {
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
         })
 }
 
 export const UpdateUserData = (param: UpdateUserDataType) => (dispatch: Dispatch) => {
+    dispatch(SetStatusApp('loading'))
+    dispatch(SetEntityStatus('loading'))
     dispatch(SetLoadingAction(true))
     API.updateUser(param)
         .then(res => {
-            console.log(res)
             dispatch(SetAvatarAction(res.data.updatedUser.avatar))
             dispatch(SetNameAction(res.data.updatedUser.name))
             dispatch(SetLoadingAction(false))
+            dispatch(SetStatusApp('succeeded'))
+            dispatch(SetEntityStatus('succeeded'))
         })
         .catch(err => {
-            alert(err.data)
+            const error = err.response
+                ? err.response.data.error
+                : (err.message + ', more details in the console')
+            handleInternetError(dispatch, error)
         })
 }

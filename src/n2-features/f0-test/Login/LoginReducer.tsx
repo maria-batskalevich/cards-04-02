@@ -28,7 +28,7 @@ export const LoginAction = (isLoggedIn: boolean) => ({type: 'login/LOGIN_CASE', 
 export const LoginThunk = (param: AuthLoginTypes) => (dispatch: Dispatch) => {
     dispatch(SetStatusApp('loading'))
     dispatch(SetEntityStatus('loading'))
-    API.loginAPI.login(param)
+    API.logAPI.login(param)
         .then(res => {
             dispatch(LoginAction(true))
             dispatch(SetStatusApp('succeeded'))

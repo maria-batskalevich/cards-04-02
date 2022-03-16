@@ -16,7 +16,7 @@ import {
     PostCardsQueryParams,
     CardType,
     PutCardsQueryParams,
-    UpdateGradeQueryParams, UpdatedGradeType,
+    UpdateGradeQueryParams, UpdatedGradeType, LogOutResponse,
 } from "./ApiResponseTypes";
 
 const instance = axios.create({
@@ -27,8 +27,9 @@ const instance = axios.create({
 });
 
 export const API = {
-    loginAPI: {
+    logAPI: {
         login: (param: AuthLoginTypes) => instance.post<AuthLoginTypes, ApiResponseTypes<{ data: AuthLoginResponseTypes }>>('auth/login', param),
+        logOut: () => instance.delete<LogOutResponse>('auth/me', {})
     },
     recoveryPass(param: RecoveryParamsType) {
         return instance.post<RecoveryParamsType, ApiResponseTypes>('auth/forgot', param)

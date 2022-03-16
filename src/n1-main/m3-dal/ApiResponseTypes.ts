@@ -137,3 +137,7 @@ export type UpdateGradeQueryParams = {
     grade: number,
     card_id: string
 }
+export type LogOutResponse = {
+    info: string
+    error?: string
+}

@@ -1,12 +1,20 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {initLoginStateType, SetAvatarAction, SetNameAction, SetUserThunk, UpdateUserData} from "./ProfileReducer";
+import {
+    initLoginStateType,
+    LogOutThunk,
+    SetAvatarAction,
+    SetNameAction,
+    SetUserThunk,
+    UpdateUserData
+} from "./ProfileReducer";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import s from '../../../n1-main/m1-ui/common/Container.module.css'
 import {LoadingProgress} from "../../../n1-main/m1-ui/common/LoagingProgress/LoadingProgress";
 import {StatusType} from "../../../n1-main/m2-bll/app-reducer";
 import SuperInputText from "../../../n1-main/m1-ui/common/c1-SuperInputText/SuperInputText";
+import { Navigate } from 'react-router-dom';
 
 export const Profile = () => {
 
@@ -16,10 +24,10 @@ export const Profile = () => {
 
     const dispatch = useDispatch()
     const entityStatus = useSelector<AppRootStateType, StatusType>(state => state.app.entityStatus)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
 
     useEffect(() => {
         dispatch(SetUserThunk())
-        console.log(name, email)
     }, [dispatch])
 
     const updateUserData = () => {
@@ -32,6 +40,11 @@ export const Profile = () => {
     }
     const updateAvatar = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(SetAvatarAction(e.currentTarget.value))
+    }
+    const logOutHandler = () => dispatch(LogOutThunk())
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
     }
 
     return <div>
@@ -46,7 +59,8 @@ export const Profile = () => {
                 <div>{name}</div>
                 <div>{email}</div>
 
-                <SuperButton onClick={() => setEditMode(true)}>Edit</SuperButton>
+                <SuperButton onClick={() => setEditMode(true)} disabled={entityStatus === 'loading'}>Edit</SuperButton>
+                <SuperButton onClick={logOutHandler} disabled={entityStatus === 'loading'}>Log Out</SuperButton>
             </div>
             :
             <div className={s.container}><h1>Profile</h1>
