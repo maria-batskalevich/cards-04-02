@@ -35,7 +35,13 @@ export const CardsList = (props: CardsListPropsType) => {
         props.setShow(false)
         dispatch(FetchPacksThunk())
     }
-    const addCardHandler = (question: string, answer: string) => dispatch(AddCardThunk({card: {cardsPack_id: currentCardsPackID, question, answer}}))
+    const addCardHandler = (question: string, answer: string) => dispatch(AddCardThunk({
+        card: {
+            cardsPack_id: currentCardsPackID,
+            question,
+            answer
+        }
+    }))
     const learnCards = () => {
         setShowEducation(true)
     }
@@ -45,9 +51,9 @@ export const CardsList = (props: CardsListPropsType) => {
     }, [dispatch, currentCardsPack])
 
     if (!props.show) {
-        return <Packs />
+        return <Packs/>
     }
-    if (showEducation && currentCardsPack){
+    if (showEducation && currentCardsPack) {
         return <Education setShowEducation={setShowEducation} cardsPack={currentCardsPack}/>
     }
     return <div>
@@ -56,15 +62,17 @@ export const CardsList = (props: CardsListPropsType) => {
                 <h1>{currentCardsPack && currentCardsPack.name}</h1>
                 <SuperButton disabled={cards.length === 0} onClick={learnCards}>Learn Cards</SuperButton>
                 <ModalDoubleInputContainer title={'Add new card'} messageName={'Add new card'}
-                                     callback={addCardHandler}
-                                     currentCardsPackID={currentCardsPackID}
+                                           callback={addCardHandler}
+                                           currentCardsPackID={currentCardsPackID}
+                                           currentCardsPack={currentCardsPack}
                 />
                 <SuperButton onClick={showPacks}>
-                    <img src={imgVector}/>  Back
+                    <img src={imgVector}/> Back
                 </SuperButton>
             </div>
             <div className={s.items}>
-                <Cards entityStatus={entityStatus} addCardHandler={addCardHandler} packId={currentCardsPackID} cards={cards}/>
+                <Cards entityStatus={entityStatus} addCardHandler={addCardHandler} packId={currentCardsPackID}
+                       cards={cards}/>
             </div>
         </div>
     </div>
