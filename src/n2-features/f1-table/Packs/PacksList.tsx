@@ -15,7 +15,7 @@ import {MultiSlider} from "../../../n1-main/m1-ui/common/MultiSlider/MultiSlider
 import debounce from "lodash.debounce";
 
 export const PacksList = (): ReactElement => {
-
+    let [value, setValue] = useState('')
     const dispatch = useDispatch()
 
     const cardsPacks = useSelector<AppRootStateType, CardPacksResponseType[]>(state => state.packs.cardPacks)
@@ -29,13 +29,13 @@ export const PacksList = (): ReactElement => {
     const [show, setShow] = useState(false)
 
     const filteredCards = cardsPacks.filter(c => c && c.cardsCount >= minCardsCount && c.cardsCount <= maxCardsCount)
-
+    const searchPacks = cardsPacks.filter(p => p.name.toLowerCase().includes(value.toLowerCase()))
     const changeCardsCount = useMemo(() => debounce((max: number, min: number) =>
         dispatch(SetCardsCountAC(max, min)), 500), [dispatch])
     const showMyCardsPacks = () => dispatch(SetPrivatePacksThunk(user_id))
     const showAllCardsPacks = () => dispatch(FetchPacksThunk())
     const addPackHandler = (name: string) => dispatch(AddCardsPackThunk(name))
-
+    const onChangeHandler = (e: any) => setValue(e.currentTarget.value)
     useEffect(() => {
         if (!isLoggedIn) return
         dispatch(FetchPacksThunk())
@@ -61,9 +61,11 @@ export const PacksList = (): ReactElement => {
                 <MultiSlider max={103} min={0} callback={changeCardsCount}/>
             </div>
             <ModalInputContainer title={'Add new pack'} messageName={'Add new pack'} callback={addPackHandler}/>
+            <input type="text" onChange={onChangeHandler}/>
         </div>
         <div className={s.items}>
-            <Packs cardsPacks={filteredCards} user_id={user_id} entityStatus={entityStatus} setShow={setShow}/>
+            <Packs cardsPacks={value ? searchPacks : filteredCards} user_id={user_id} entityStatus={entityStatus}
+                   setShow={setShow}/>
         </div>
         <ModalUp/>
     </div>
